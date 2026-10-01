@@ -1,0 +1,276 @@
+/**
+ * Barar Atik SMS OTP — frontend OTP panel.
+ * Every selector is scoped to .barar-otp so themes (Woodmart, Blonwe, ...)
+ * and WooCommerce forms stay untouched.
+ *
+ * @package Barar_Atik
+ */
+
+.barar-otp {
+	margin: 18px 0;
+	font-size: 15px;
+}
+
+/* The hidden attribute must always win over component display rules. */
+.barar-otp [hidden] {
+	display: none !important;
+}
+
+.barar-otp__switch {
+	display: inline-block;
+	font: inherit;
+	font-weight: 600;
+	line-height: 1.3;
+	color: #1e6dd8;
+	background: #f6f7f7;
+	border: 1px dashed #8c8f94;
+	border-radius: 6px;
+	padding: 9px 16px;
+	cursor: pointer;
+	transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.barar-otp__switch:hover,
+.barar-otp__switch:focus {
+	background: #eef4fd;
+	border-color: #1e6dd8;
+}
+
+.barar-otp__switch[aria-expanded="true"] {
+	border-style: solid;
+	border-color: #1e6dd8;
+}
+
+.barar-otp__body {
+	margin-top: 14px;
+	padding: 16px;
+	max-width: 470px;
+	background: rgba(255, 255, 255, 0.75);
+	border: 1px solid #dcdcde;
+	border-radius: 10px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.barar-otp__status {
+	min-height: 1.3em;
+	margin: 0 0 12px;
+	padding: 0;
+	font-size: 14px;
+	color: #50575e;
+}
+
+.barar-otp__status.is-error {
+	color: #b32d2e;
+	font-weight: 600;
+}
+
+.barar-otp__status.is-success {
+	color: #008a20;
+	font-weight: 600;
+}
+
+.barar-otp__hint {
+	margin: 0 0 10px;
+	font-size: 13px;
+	color: #646970;
+}
+
+.barar-otp__field {
+	margin: 0 0 12px;
+}
+
+.barar-otp__field label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: 600;
+	color: #1d2327;
+}
+
+.barar-otp__optional {
+	font-weight: 400;
+	font-size: 12px;
+	color: #8c8f94;
+}
+
+.barar-otp__input {
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+	font: inherit;
+	color: #2c3338;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 6px;
+	padding: 9px 11px;
+	box-shadow: none;
+}
+
+.barar-otp__input:focus {
+	border-color: #1e6dd8;
+	box-shadow: 0 0 0 1px #1e6dd8;
+	outline: 2px solid transparent;
+}
+
+.barar-otp__code {
+	max-width: 240px;
+	font-size: 20px;
+	letter-spacing: 0.35em;
+	text-align: center;
+	font-variant-numeric: tabular-nums;
+}
+
+.barar-otp__actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+	margin: 0 0 12px;
+}
+
+.barar-otp__actions .button {
+	font: inherit;
+	cursor: pointer;
+}
+
+.barar-otp__resend[disabled],
+.barar-otp__send[disabled],
+.barar-otp__verify[disabled] {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.barar-otp__back {
+	font: inherit;
+	font-size: 13px;
+	color: #1e6dd8;
+	background: none;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.barar-otp__change {
+	font-size: 13px;
+}
+
+.barar-otp__spinner {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	box-sizing: border-box;
+	border: 2px solid #c3c4c7;
+	border-top-color: #1e6dd8;
+	border-radius: 50%;
+	animation: barar-otp-spin 0.8s linear infinite;
+	vertical-align: middle;
+}
+
+@keyframes barar-otp-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.barar-otp__spinner {
+		animation-duration: 2.4s;
+	}
+}
+
+/* Narrow screens / stacked theme forms. */
+@media (max-width: 480px) {
+	.barar-otp__body {
+		padding: 14px;
+	}
+
+	.barar-otp__code {
+		max-width: 100%;
+	}
+}
+
+/* Right-to-left languages. */
+[dir="rtl"] .barar-otp__actions {
+	justify-content: flex-start;
+}
+
+/* -----------------------------------------------------------------------
+ * Inline injection into the native WooCommerce forms (wc_inject mode).
+ * The controls sit inside .woocommerce-form-login / .woocommerce-form-register,
+ * so they adopt a lighter, form-like presentation.
+ * -------------------------------------------------------------------- */
+
+.barar-otp--inline {
+	margin: 16px 0 0;
+	padding-top: 14px;
+	border-top: 1px dashed #dcdcde;
+	max-width: 470px;
+}
+
+.barar-otp__tabs {
+	display: inline-flex;
+	gap: 4px;
+	padding: 4px;
+	margin: 0 0 12px;
+	background: #f0f0f1;
+	border: 1px solid #dcdcde;
+	border-radius: 9px;
+}
+
+.barar-otp__tab {
+	font: inherit;
+	font-size: 13.5px;
+	font-weight: 600;
+	line-height: 1.2;
+	color: #50575e;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 7px;
+	padding: 7px 14px;
+	cursor: pointer;
+	transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.barar-otp__tab:hover {
+	color: #1e6dd8;
+}
+
+.barar-otp__tab.is-active {
+	color: #1e6dd8;
+	background: #fff;
+	border-color: #dcdcde;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.barar-otp__tab:focus-visible {
+	outline: 2px solid #1e6dd8;
+	outline-offset: 1px;
+}
+
+/* Inside the form the body reads as a continuation of the form itself. */
+.barar-otp--inline .barar-otp__body {
+	margin-top: 0;
+	max-width: none;
+	background: #f6f7f7;
+}
+
+/* The status line needs breathing room below the tabs. */
+.barar-otp--inline .barar-otp__status {
+	min-height: 1.3em;
+}
+
+@media (max-width: 480px) {
+	.barar-otp--inline {
+		max-width: none;
+	}
+
+	.barar-otp__tabs {
+		display: flex;
+		width: 100%;
+	}
+
+	.barar-otp__tab {
+		flex: 1;
+		text-align: center;
+	}
+}

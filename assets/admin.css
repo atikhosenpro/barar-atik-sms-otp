@@ -1,0 +1,1341 @@
+/**
+ * Barar Atik SMS OTP — admin interface.
+ *
+ * A small, self-contained design system: every rule is scoped to .barar-admin
+ * or a barar-* class (the toast is the single exception, it is appended to
+ * <body>), so no WordPress or WooCommerce admin style is ever changed.
+ *
+ * @package Barar_Atik
+ */
+
+/* ---------------------------------------------------------------------
+ * 1. Design tokens
+ * ------------------------------------------------------------------ */
+
+:root {
+	--barar-brand: #2563eb;
+	--barar-brand-dark: #1d4ed8;
+	--barar-brand-soft: #eff4ff;
+	--barar-ink: #101828;
+	--barar-ink-2: #344054;
+	--barar-muted: #667085;
+	--barar-faint: #98a2b3;
+	--barar-line: #e4e7ec;
+	--barar-line-soft: #eef0f4;
+	--barar-surface: #ffffff;
+	--barar-surface-2: #f9fafb;
+	--barar-ok: #12b76a;
+	--barar-ok-ink: #027a48;
+	--barar-warn: #f79009;
+	--barar-warn-ink: #b54708;
+	--barar-err: #f04438;
+	--barar-err-ink: #b42318;
+	--barar-radius: 12px;
+	--barar-radius-sm: 8px;
+	--barar-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+	--barar-shadow-md: 0 6px 18px rgba(16, 24, 40, 0.1);
+	--barar-focus: 0 0 0 3px rgba(37, 99, 235, 0.16);
+}
+
+/* ---------------------------------------------------------------------
+ * 2. Page shell
+ * ------------------------------------------------------------------ */
+
+.barar-admin {
+	max-width: 1440px;
+	padding-bottom: 40px;
+	color: var(--barar-ink);
+}
+
+.barar-admin h1 {
+	margin: 10px 0 0;
+	padding-top: 8px;
+	font-size: 23px;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	color: var(--barar-ink);
+}
+
+.barar-admin .description {
+	color: var(--barar-muted);
+	font-size: 12.5px;
+	line-height: 1.55;
+}
+
+.barar-admin .notice {
+	border-radius: var(--barar-radius-sm);
+}
+
+/* ---------------------------------------------------------------------
+ * 3. Section navigation
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-nav {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	width: fit-content;
+	max-width: 100%;
+	margin: 16px 0 20px;
+	padding: 5px;
+	background: #eef1f6;
+	border: 1px solid var(--barar-line);
+	border-radius: 12px;
+}
+
+.barar-admin .barar-nav__item {
+	display: inline-block;
+	padding: 8px 16px;
+	border-radius: 8px;
+	border: 1px solid transparent;
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.3;
+	color: var(--barar-muted);
+	text-decoration: none;
+	white-space: nowrap;
+	transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.barar-admin .barar-nav__item:hover {
+	color: var(--barar-brand);
+	background: rgba(255, 255, 255, 0.72);
+}
+
+.barar-admin .barar-nav__item.is-active {
+	color: var(--barar-brand);
+	background: var(--barar-surface);
+	border-color: var(--barar-line);
+	box-shadow: var(--barar-shadow);
+}
+
+.barar-admin .barar-nav__item:focus-visible {
+	outline: 2px solid var(--barar-brand);
+	outline-offset: 1px;
+}
+
+/* ---------------------------------------------------------------------
+ * 4. Cards and grids
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+	gap: 16px;
+	margin: 18px 0;
+}
+
+.barar-admin .barar-cards--stats {
+	grid-template-columns: repeat(auto-fit, minmax(158px, 1fr));
+	gap: 14px;
+}
+
+.barar-admin .barar-cards--split {
+	grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+}
+
+.barar-admin .barar-card {
+	background: var(--barar-surface);
+	border: 1px solid var(--barar-line);
+	border-radius: var(--barar-radius);
+	padding: 16px 18px 18px;
+	box-shadow: var(--barar-shadow);
+}
+
+.barar-admin .barar-card h3 {
+	margin: 0 0 10px;
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: -0.005em;
+	color: var(--barar-ink);
+}
+
+.barar-admin .barar-card__body {
+	font-size: 13px;
+	color: var(--barar-ink-2);
+}
+
+.barar-admin .barar-card__body > p:first-child {
+	margin-top: 0;
+}
+
+.barar-admin .barar-card__body > p:last-child {
+	margin-bottom: 0;
+}
+
+.barar-admin .barar-card--full {
+	grid-column: 1 / -1;
+}
+
+.barar-admin .barar-card--stat {
+	padding: 14px 16px;
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.barar-admin .barar-card--stat:hover {
+	transform: translateY(-1px);
+	box-shadow: var(--barar-shadow-md);
+}
+
+.barar-admin .barar-card--stat h3 {
+	margin-bottom: 6px;
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.07em;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-card--alert {
+	border-color: #fecdca;
+	background: #fffbfa;
+}
+
+.barar-admin .barar-card--alert h3 {
+	color: var(--barar-err-ink);
+}
+
+.barar-admin .barar-stat {
+	margin: 0;
+	font-size: 28px;
+	font-weight: 800;
+	line-height: 1.05;
+	letter-spacing: -0.02em;
+	color: var(--barar-ink);
+	font-variant-numeric: tabular-nums;
+}
+
+.barar-admin .barar-stat-sub {
+	margin: 6px 0 0;
+	font-size: 12px;
+	color: var(--barar-muted);
+}
+
+/* ---------------------------------------------------------------------
+ * 5. Dashboard: checklist and feed
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-checklist {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.barar-admin .barar-checklist li {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 11px 2px;
+	border-bottom: 1px solid var(--barar-line-soft);
+}
+
+.barar-admin .barar-checklist li:first-child {
+	padding-top: 2px;
+}
+
+.barar-admin .barar-checklist li:last-child {
+	border-bottom: 0;
+	padding-bottom: 2px;
+}
+
+.barar-admin .barar-checklist__text {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	flex: 1;
+	min-width: 0;
+}
+
+.barar-admin .barar-checklist__text strong {
+	font-size: 13px;
+	color: var(--barar-ink);
+}
+
+.barar-admin .barar-checklist__text span {
+	font-size: 12px;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-feed {
+	list-style: none;
+	margin: 0 0 14px;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.barar-admin .barar-feed li {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	min-width: 0;
+	padding: 8px 10px;
+	background: var(--barar-surface-2);
+	border: 1px solid var(--barar-line-soft);
+	border-radius: var(--barar-radius-sm);
+	font-size: 12.5px;
+}
+
+.barar-admin .barar-feed .barar-badge {
+	flex: none;
+	font-size: 10.5px;
+	padding: 2px 7px;
+}
+
+.barar-admin .barar-feed code {
+	flex: none;
+	padding: 2px 6px;
+	background: #eef1f6;
+	border-radius: 6px;
+	font-size: 12px;
+	color: var(--barar-ink-2);
+}
+
+.barar-admin .barar-feed__text {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-feed__time {
+	flex: none;
+	font-size: 11.5px;
+	color: var(--barar-faint);
+	white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------------
+ * 6. Two-column layout (settings + sticky macro sidebar)
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 330px;
+	gap: 22px;
+	align-items: start;
+	margin-top: 6px;
+}
+
+.barar-admin .barar-main {
+	min-width: 0;
+}
+
+.barar-admin .barar-side .barar-macros {
+	position: sticky;
+	top: 46px;
+	max-height: calc(100vh - 70px);
+	overflow-y: auto;
+}
+
+@media (max-width: 960px) {
+	.barar-admin .barar-layout {
+		grid-template-columns: 1fr;
+	}
+
+	.barar-admin .barar-side .barar-macros {
+		position: static;
+		max-height: none;
+	}
+}
+
+/* ---------------------------------------------------------------------
+ * 7. Forms
+ * ------------------------------------------------------------------ */
+
+.barar-admin form h2 {
+	margin: 30px 0 4px;
+	padding-top: 22px;
+	border-top: 1px solid var(--barar-line-soft);
+	font-size: 15px;
+	font-weight: 700;
+	letter-spacing: -0.005em;
+	color: var(--barar-ink);
+}
+
+.barar-admin form h2:first-of-type {
+	margin-top: 8px;
+	padding-top: 0;
+	border-top: 0;
+}
+
+.barar-admin form h2 + p.description {
+	margin: 2px 0 4px;
+}
+
+.barar-admin .form-table {
+	margin-top: 10px;
+}
+
+.barar-admin .form-table th {
+	width: 280px;
+	padding: 15px 22px 15px 0;
+	vertical-align: top;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--barar-ink-2);
+	text-align: start;
+}
+
+.barar-admin .form-table td {
+	padding: 15px 0;
+	vertical-align: middle;
+}
+
+.barar-admin .form-table td p {
+	margin-top: 6px;
+}
+
+.barar-admin .form-table input[type="text"],
+.barar-admin .form-table input[type="url"],
+.barar-admin .form-table input[type="number"],
+.barar-admin .form-table input[type="search"],
+.barar-admin .form-table input[type="password"],
+.barar-admin .form-table input[type="email"],
+.barar-admin .form-table select,
+.barar-admin .form-table textarea,
+.barar-admin .barar-filters select,
+.barar-admin .barar-filters input[type="search"] {
+	box-sizing: border-box;
+	border: 1px solid #d0d5dd;
+	border-radius: var(--barar-radius-sm);
+	background: var(--barar-surface);
+	color: var(--barar-ink);
+	font-size: 13px;
+	padding: 8px 11px;
+	box-shadow: none;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.barar-admin .form-table select {
+	padding: 8px 30px 8px 11px;
+	max-width: 100%;
+}
+
+.barar-admin .form-table textarea {
+	line-height: 1.55;
+	resize: vertical;
+}
+
+.barar-admin .form-table input:focus,
+.barar-admin .form-table select:focus,
+.barar-admin .form-table textarea:focus,
+.barar-admin .barar-filters input:focus,
+.barar-admin .barar-filters select:focus {
+	border-color: var(--barar-brand);
+	box-shadow: var(--barar-focus);
+	outline: none;
+}
+
+.barar-admin .form-table input::placeholder,
+.barar-admin .form-table textarea::placeholder {
+	color: var(--barar-faint);
+}
+
+/* Labels next to checkboxes / inside cells. */
+.barar-admin .form-table td label {
+	display: inline-flex;
+	align-items: center;
+	gap: 9px;
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--barar-ink-2);
+	cursor: pointer;
+}
+
+.barar-admin .form-table .barar-secret,
+.barar-admin .form-table .barar-copy-row {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	max-width: 560px;
+}
+
+.barar-admin .form-table .barar-secret input,
+.barar-admin .form-table .barar-copy-input {
+	flex: 1;
+	min-width: 0;
+}
+
+.barar-admin .barar-tool-table th {
+	width: 170px;
+	padding: 11px 16px 11px 0;
+}
+
+.barar-admin .barar-tool-table td {
+	padding: 11px 0;
+}
+
+/* Pill switches (all plugin checkboxes). */
+.barar-admin input[type="checkbox"] {
+	-webkit-appearance: none;
+	appearance: none;
+	accent-color: var(--barar-brand);
+	position: relative;
+	box-sizing: border-box;
+	flex: none;
+	width: 38px;
+	height: 22px;
+	margin: 0;
+	border: 1px solid #d0d5dd;
+	border-radius: 999px;
+	background: #d0d5dd;
+	cursor: pointer;
+	transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.barar-admin input[type="checkbox"]::after {
+	content: "";
+	position: absolute;
+	top: 2px;
+	inset-inline-start: 2px;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: #fff;
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.25);
+	transition: transform 0.15s ease;
+}
+
+.barar-admin input[type="checkbox"]:checked {
+	background: var(--barar-brand);
+	border-color: var(--barar-brand);
+}
+
+.barar-admin input[type="checkbox"]:checked::after {
+	transform: translateX(16px);
+}
+
+.barar-admin input[type="checkbox"]:focus-visible {
+	outline: 2px solid var(--barar-brand);
+	outline-offset: 2px;
+}
+
+.barar-admin input[type="checkbox"]:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.barar-admin input[type="radio"] {
+	accent-color: var(--barar-brand);
+	margin: 0 6px 0 0;
+	vertical-align: middle;
+}
+
+.barar-admin p.submit {
+	margin: 24px 0 8px;
+	padding-top: 18px;
+	border-top: 1px solid var(--barar-line-soft);
+}
+
+/* ---------------------------------------------------------------------
+ * 8. Buttons
+ * ------------------------------------------------------------------ */
+
+.barar-admin .button {
+	box-sizing: border-box;
+	height: 32px;
+	line-height: 30px;
+	margin: 0;
+	padding: 0 13px;
+	border: 1px solid #d0d5dd;
+	border-radius: var(--barar-radius-sm);
+	background: var(--barar-surface);
+	color: var(--barar-ink-2);
+	font-size: 13px;
+	font-weight: 600;
+	box-shadow: none;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.barar-admin .button:hover {
+	background: var(--barar-surface-2);
+	border-color: #98a2b3;
+	color: var(--barar-ink);
+}
+
+.barar-admin .button:active {
+	background: #f2f4f7;
+}
+
+.barar-admin .button:focus-visible {
+	outline: 2px solid var(--barar-brand);
+	outline-offset: 2px;
+}
+
+.barar-admin .button-primary {
+	background: var(--barar-brand);
+	border-color: var(--barar-brand);
+	color: #fff;
+}
+
+.barar-admin .button-primary:hover {
+	background: var(--barar-brand-dark);
+	border-color: var(--barar-brand-dark);
+	color: #fff;
+}
+
+.barar-admin p.submit .button-primary {
+	height: 38px;
+	line-height: 36px;
+	padding: 0 22px;
+	border-radius: 10px;
+	font-size: 14px;
+}
+
+.barar-admin .button-small {
+	height: 26px;
+	line-height: 24px;
+	padding: 0 10px;
+	font-size: 12px;
+}
+
+/* ---------------------------------------------------------------------
+ * 9. Secret fields, copy rows, counters
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-counter {
+	display: block;
+	min-height: 16px;
+	margin-top: 5px;
+	text-align: end;
+	font-size: 12px;
+	color: var(--barar-muted);
+	font-variant-numeric: tabular-nums;
+}
+
+.barar-admin .barar-toggle-secret[aria-pressed="true"] {
+	color: var(--barar-brand);
+	border-color: var(--barar-brand);
+}
+
+/* ---------------------------------------------------------------------
+ * 10. Macro chips
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-macro-group + .barar-macro-group {
+	margin-top: 14px;
+}
+
+.barar-admin .barar-macro-group h4 {
+	margin: 0 0 7px;
+	font-size: 10.5px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.07em;
+	color: var(--barar-faint);
+}
+
+.barar-admin .barar-macros .barar-macro {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	width: 100%;
+	box-sizing: border-box;
+	margin: 0 0 6px;
+	padding: 7px 10px;
+	border: 1px solid var(--barar-line);
+	border-radius: var(--barar-radius-sm);
+	background: var(--barar-surface);
+	color: var(--barar-ink-2);
+	font-size: 12px;
+	font-weight: 500;
+	text-align: start;
+	cursor: pointer;
+	transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.barar-admin .barar-macros .barar-macro:hover {
+	background: var(--barar-brand-soft);
+	border-color: #b2ccff;
+	color: var(--barar-brand-dark);
+}
+
+.barar-admin .barar-macros .barar-macro code {
+	flex: none;
+	font-size: 11.5px;
+	color: var(--barar-brand-dark);
+	background: var(--barar-brand-soft);
+	border: 1px solid #dbe6ff;
+	border-radius: 6px;
+	padding: 1px 6px;
+}
+
+.barar-admin .barar-macros .barar-macro span {
+	flex: 1;
+	min-width: 0;
+	color: var(--barar-muted);
+}
+
+/* Inline macro rows (OTP page). */
+.barar-admin .barar-macro-inline {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 7px;
+	margin: 0;
+}
+
+.barar-admin .barar-macro-inline .barar-macro {
+	display: inline-flex;
+	margin: 0;
+	padding: 4px 9px;
+	border-radius: 999px;
+	background: var(--barar-surface-2);
+}
+
+.barar-admin .barar-macro-inline .barar-macro code {
+	background: transparent;
+	border: 0;
+	padding: 0;
+	font-size: 12px;
+}
+
+/* ---------------------------------------------------------------------
+ * 11. Badges and status dots
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 3px 9px;
+	border-radius: 999px;
+	border: 1px solid transparent;
+	font-size: 11.5px;
+	font-weight: 700;
+	line-height: 1.4;
+	letter-spacing: 0.01em;
+	white-space: nowrap;
+}
+
+.barar-admin .barar-badge--pending {
+	background: #fffaeb;
+	border-color: #fedf89;
+	color: var(--barar-warn-ink);
+}
+
+.barar-admin .barar-badge--dispatched {
+	background: #eff8ff;
+	border-color: #b2ddff;
+	color: #175cd3;
+}
+
+.barar-admin .barar-badge--sent {
+	background: #ecfdf3;
+	border-color: #abefc6;
+	color: var(--barar-ok-ink);
+}
+
+.barar-admin .barar-badge--delivered {
+	background: #d1fadf;
+	border-color: #6ce9a6;
+	color: #05603a;
+}
+
+.barar-admin .barar-badge--received {
+	background: #f4f3ff;
+	border-color: #d9d6ff;
+	color: #5925dc;
+}
+
+.barar-admin .barar-badge--failed {
+	background: #fef3f2;
+	border-color: #fecdca;
+	color: var(--barar-err-ink);
+}
+
+.barar-admin .barar-badge--unknown {
+	background: #f2f4f7;
+	border-color: #e4e7ec;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-dot {
+	display: inline-block;
+	flex: none;
+	width: 9px;
+	height: 9px;
+	margin-inline-end: 7px;
+	border-radius: 50%;
+	background: var(--barar-faint);
+	vertical-align: middle;
+}
+
+.barar-admin .barar-dot--ok {
+	background: var(--barar-ok);
+	box-shadow: 0 0 0 3px rgba(18, 183, 106, 0.15);
+}
+
+.barar-admin .barar-dot--warn {
+	background: var(--barar-warn);
+	box-shadow: 0 0 0 3px rgba(247, 144, 9, 0.15);
+}
+
+.barar-admin .barar-dot--err {
+	background: var(--barar-err);
+	box-shadow: 0 0 0 3px rgba(240, 68, 56, 0.15);
+}
+
+.barar-admin .barar-dot--off {
+	background: #e4e7ec;
+	border: 1px solid #d0d5dd;
+}
+
+/* ---------------------------------------------------------------------
+ * 12. Event cards, recipients, details, inline info
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-event {
+	scroll-margin-top: 60px;
+}
+
+.barar-admin .barar-inline {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 14.5px;
+	font-weight: 700;
+	color: var(--barar-ink);
+	cursor: pointer;
+}
+
+.barar-admin .barar-recipients {
+	box-sizing: border-box;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	margin: 10px 0 12px;
+	padding: 0;
+	border: 0;
+}
+
+.barar-admin .barar-recipients legend {
+	float: none;
+	width: auto;
+	margin-bottom: 7px;
+	padding: 0;
+	font-size: 11.5px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-recipients label {
+	display: inline-flex;
+	align-items: center;
+	gap: 9px;
+	padding: 7px 12px;
+	background: var(--barar-surface-2);
+	border: 1px solid var(--barar-line);
+	border-radius: 999px;
+	font-size: 12.5px;
+	font-weight: 600;
+	color: var(--barar-ink-2);
+	cursor: pointer;
+	transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.barar-admin .barar-recipients label:hover {
+	background: var(--barar-brand-soft);
+	border-color: #b2ccff;
+}
+
+.barar-admin .barar-details {
+	margin-top: 8px;
+	padding-top: 8px;
+	border-top: 1px dashed var(--barar-line);
+}
+
+.barar-admin .barar-details summary {
+	font-size: 12.5px;
+	font-weight: 600;
+	color: var(--barar-muted);
+	cursor: pointer;
+}
+
+.barar-admin .barar-details summary:hover {
+	color: var(--barar-brand);
+}
+
+.barar-admin .barar-details[open] summary {
+	margin-bottom: 10px;
+}
+
+.barar-admin .barar-inline-card {
+	padding: 13px 15px;
+	background: var(--barar-brand-soft);
+	border: 1px solid #b2ccff;
+	border-radius: 10px;
+	font-size: 13px;
+}
+
+.barar-admin .barar-inline-card .barar-copy-row {
+	margin-top: 8px;
+}
+
+/* ---------------------------------------------------------------------
+ * 13. Tool results and rendered previews
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-tool-result {
+	display: block;
+	min-height: 18px;
+	margin-top: 8px;
+	font-size: 12.5px;
+	font-weight: 500;
+	line-height: 1.5;
+}
+
+.barar-admin .barar-tool-result.is-ok {
+	color: var(--barar-ok-ink);
+}
+
+.barar-admin .barar-tool-result.is-error {
+	color: var(--barar-err-ink);
+}
+
+.barar-admin .barar-tool-result.is-info {
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-preview-out {
+	display: block;
+	margin: 12px 0 0;
+	padding: 13px 15px;
+	border-radius: 10px;
+	background: #101828;
+	color: #e4e7ec;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 12.5px;
+	line-height: 1.6;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.barar-admin .barar-preview-meta {
+	margin-top: 7px;
+	font-size: 12px;
+	color: var(--barar-muted);
+}
+
+/* ---------------------------------------------------------------------
+ * 14. Filter bar and sync line
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-filters {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 12px 14px;
+	box-sizing: border-box;
+	margin: 16px 0 8px;
+	padding: 13px 15px;
+	background: var(--barar-surface);
+	border: 1px solid var(--barar-line);
+	border-radius: var(--barar-radius);
+	box-shadow: var(--barar-shadow);
+}
+
+.barar-admin .barar-filters label {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	font-size: 11.5px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-filters select,
+.barar-admin .barar-filters input {
+	min-width: 150px;
+	height: 34px;
+	margin: 0;
+	text-transform: none;
+	letter-spacing: normal;
+}
+
+.barar-admin .barar-filters input[type="search"] {
+	min-width: 220px;
+}
+
+.barar-admin .barar-filters .barar-tool-result {
+	flex: 1;
+	min-width: 140px;
+	margin-top: 0;
+	align-self: center;
+	text-align: end;
+}
+
+.barar-admin .barar-last-sync {
+	margin: 4px 0 14px;
+	font-size: 12px;
+	color: var(--barar-muted);
+}
+
+/* ---------------------------------------------------------------------
+ * 15. Message center table
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-messages {
+	box-sizing: border-box;
+	border: 1px solid var(--barar-line);
+	border-radius: var(--barar-radius);
+	background: var(--barar-surface);
+	overflow: clip; /* Clips the rounded corners without creating a scroll container (sticky header keeps working). */
+}
+
+.barar-admin .barar-messages thead th {
+	position: sticky;
+	top: 32px;
+	z-index: 2;
+	box-sizing: border-box;
+	padding: 11px 14px;
+	background: var(--barar-surface-2);
+	border-bottom: 1px solid var(--barar-line);
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-messages td {
+	padding: 11px 14px;
+	border-color: var(--barar-line-soft);
+	font-size: 13px;
+	color: var(--barar-ink-2);
+	vertical-align: top;
+}
+
+.barar-admin .barar-messages tbody tr:hover td {
+	background: var(--barar-brand-soft);
+}
+
+.barar-admin .barar-messages .barar-col-id {
+	width: 54px;
+	color: var(--barar-faint);
+	font-variant-numeric: tabular-nums;
+}
+
+.barar-admin .barar-messages .barar-col-dir {
+	width: 96px;
+	white-space: nowrap;
+	font-size: 12.5px;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-messages .barar-col-status {
+	width: 122px;
+}
+
+.barar-admin .barar-messages .barar-col-context {
+	width: 190px;
+}
+
+.barar-admin .barar-messages .barar-col-times {
+	width: 178px;
+	font-size: 12.5px;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-messages .barar-col-tb {
+	width: 170px;
+	font-size: 12.5px;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-messages code {
+	padding: 2px 6px;
+	background: #eef1f6;
+	border-radius: 6px;
+	font-size: 12.5px;
+	color: var(--barar-ink-2);
+}
+
+.barar-admin .barar-row-error {
+	margin-top: 5px;
+	font-size: 12px;
+	color: var(--barar-err-ink);
+	word-break: break-word;
+}
+
+.barar-admin .barar-row-sub {
+	margin-top: 4px;
+	font-size: 12px;
+	color: var(--barar-muted);
+	word-break: break-word;
+}
+
+.barar-admin .barar-messages .barar-empty td {
+	padding: 44px 20px;
+	text-align: center;
+	color: var(--barar-muted);
+	font-size: 13.5px;
+	background: var(--barar-surface);
+}
+
+.barar-admin .barar-pagination {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 7px;
+	margin: 14px 0 0;
+	font-size: 13px;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-pagination a {
+	display: inline-block;
+	padding: 4px 10px;
+	border: 1px solid var(--barar-line);
+	border-radius: 7px;
+	background: var(--barar-surface);
+	color: var(--barar-ink-2);
+	font-size: 12.5px;
+	font-weight: 600;
+	text-decoration: none;
+	transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.barar-admin .barar-pagination a:hover {
+	background: var(--barar-brand-soft);
+	border-color: #b2ccff;
+	color: var(--barar-brand-dark);
+}
+
+.barar-admin .barar-pagination .current {
+	font-weight: 700;
+	color: var(--barar-ink);
+}
+
+/* ---------------------------------------------------------------------
+ * 16. Diagnostics pieces
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-checks {
+	box-sizing: border-box;
+	border: 1px solid var(--barar-line);
+	border-radius: 10px;
+	background: var(--barar-surface);
+	overflow: hidden;
+}
+
+.barar-admin .barar-checks td {
+	padding: 10px 14px;
+	border-color: var(--barar-line-soft);
+	font-size: 13px;
+	color: var(--barar-ink-2);
+}
+
+.barar-admin .barar-check-icon {
+	width: 46px;
+	text-align: center;
+}
+
+.barar-admin .barar-dupe {
+	margin-bottom: 14px;
+	padding: 13px 15px;
+	background: #fffcf5;
+	border: 1px solid #fedf89;
+	border-radius: 10px;
+	font-size: 13px;
+}
+
+.barar-admin .barar-dupe:last-child {
+	margin-bottom: 0;
+}
+
+.barar-admin .barar-dupe ul {
+	margin: 8px 0;
+	padding-inline-start: 20px;
+}
+
+.barar-admin .barar-dupe li {
+	margin-bottom: 4px;
+}
+
+.barar-admin .barar-inline-form {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	margin-top: 9px;
+}
+
+.barar-admin .barar-stat-list {
+	list-style: none;
+	margin: 8px 0 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+	font-size: 13px;
+	line-height: 1.55;
+	color: var(--barar-ink-2);
+}
+
+.barar-admin .barar-stat-list strong {
+	color: var(--barar-ink);
+	margin-inline-end: 5px;
+}
+
+.barar-admin .barar-stat-list code {
+	padding: 1px 6px;
+	background: #f2f4f7;
+	border-radius: 6px;
+	font-size: 12.5px;
+	color: var(--barar-ink-2);
+}
+
+/* ---------------------------------------------------------------------
+ * 17. Toast
+ * ------------------------------------------------------------------ */
+
+.barar-toast {
+	position: fixed;
+	inset-inline-end: 24px;
+	bottom: 24px;
+	z-index: 100001;
+	max-width: 340px;
+	padding: 12px 17px;
+	border-radius: 10px;
+	background: #101828;
+	color: #fff;
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.45;
+	box-shadow: 0 10px 30px rgba(16, 24, 40, 0.3);
+	opacity: 0;
+	transform: translateY(8px);
+	transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.barar-toast.is-error {
+	background: var(--barar-err-ink);
+}
+
+.barar-toast.is-in {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* ---------------------------------------------------------------------
+ * 18. Right-to-left
+ * ------------------------------------------------------------------ */
+
+[dir="rtl"] .barar-admin input[type="checkbox"]:checked::after {
+	transform: translateX(-16px);
+}
+
+/* ---------------------------------------------------------------------
+ * 19. Responsive
+ * ------------------------------------------------------------------ */
+
+@media (max-width: 1100px) {
+	.barar-admin .form-table th {
+		width: 230px;
+	}
+}
+
+@media (max-width: 782px) {
+	.barar-admin {
+		margin-right: 10px;
+	}
+
+	.barar-admin .barar-nav {
+		width: auto;
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		margin-bottom: 16px;
+	}
+
+	.barar-admin .form-table,
+	.barar-admin .form-table tbody,
+	.barar-admin .form-table tr,
+	.barar-admin .form-table th,
+	.barar-admin .form-table td {
+		display: block;
+		width: auto;
+	}
+
+	.barar-admin .form-table th {
+		padding: 14px 0 5px;
+	}
+
+	.barar-admin .form-table td {
+		padding: 0 0 14px;
+	}
+
+	.barar-admin .form-table .barar-secret,
+	.barar-admin .form-table .barar-copy-row {
+		max-width: none;
+	}
+
+	.barar-admin .barar-filters {
+		padding: 12px;
+	}
+
+	.barar-admin .barar-filters label,
+	.barar-admin .barar-filters select,
+	.barar-admin .barar-filters input {
+		width: 100%;
+		min-width: 0;
+	}
+
+	.barar-admin .barar-filters .barar-tool-result {
+		text-align: start;
+	}
+
+	.barar-admin .barar-messages {
+		display: block;
+		overflow-x: auto;
+	}
+
+	.barar-admin .barar-messages thead th {
+		position: static;
+	}
+
+	.barar-admin .barar-pagination {
+		justify-content: flex-start;
+	}
+}
+
+@media (max-width: 480px) {
+	.barar-admin .barar-cards,
+	.barar-admin .barar-cards--stats {
+		grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+		gap: 10px;
+	}
+
+	.barar-admin .barar-card {
+		padding: 14px;
+	}
+
+	.barar-admin .barar-stat {
+		font-size: 24px;
+	}
+}
+
+/* ---------------------------------------------------------------------
+ * 20. Reduced motion
+ * ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+	.barar-admin *,
+	.barar-admin *::before,
+	.barar-admin *::after,
+	.barar-toast {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+	}
+}
