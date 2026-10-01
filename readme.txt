@@ -1,5 +1,5 @@
 === Barar Atik - TextBee SMS & OTP ===
-Contributors: bararatik
+Contributors: Atik Hosen
 Tags: sms, otp, textbee, woocommerce, login with phone
 Requires at least: 6.0
 Tested up to: 7.1
