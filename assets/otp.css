@@ -1,0 +1,914 @@
+/**
+ * Barar Atik SMS OTP — frontend OTP panel.
+ * Every selector is scoped to .barar-otp so themes (Woodmart, Blonwe, ...)
+ * and WooCommerce forms stay untouched.
+ *
+ * @package Barar_Atik
+ */
+
+.barar-otp {
+	margin: 18px 0;
+	font-size: var(--barar-font, 15px);
+}
+
+/* The hidden attribute must always win over component display rules. */
+.barar-otp [hidden] {
+	display: none !important;
+}
+
+.barar-otp__caption {
+	margin: 0 0 8px;
+	font-size: 0.93em;
+	line-height: 1.4;
+	color: var(--barar-label, #50575e);
+}
+
+.barar-otp__switch {
+	display: inline-block;
+	font: inherit;
+	font-weight: 600;
+	line-height: 1.3;
+	color: var(--barar-primary, #1e6dd8);
+	background: #f6f7f7;
+	border: 1px dashed #8c8f94;
+	border-radius: 6px;
+	padding: 9px 16px;
+	cursor: pointer;
+	transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.barar-otp__switch:hover,
+.barar-otp__switch:focus {
+	background: #eef4fd;
+	border-color: var(--barar-primary, #1e6dd8);
+}
+
+.barar-otp__switch[aria-expanded="true"] {
+	border-style: solid;
+	border-color: var(--barar-primary, #1e6dd8);
+}
+
+.barar-otp__body {
+	margin-top: 14px;
+	padding: 16px;
+	max-width: var(--barar-width, 470px);
+	background: var(--barar-surface, rgba(255, 255, 255, 0.75));
+	border: 1px solid var(--barar-border, #dcdcde);
+	border-radius: var(--barar-radius, 10px);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.barar-otp__status {
+	min-height: 1.3em;
+	margin: 0 0 12px;
+	padding: 0;
+	font-size: 14px;
+	color: #50575e;
+}
+
+.barar-otp__status.is-error {
+	color: #b32d2e;
+	font-weight: 600;
+}
+
+.barar-otp__status.is-success {
+	color: #008a20;
+	font-weight: 600;
+}
+
+.barar-otp__hint {
+	margin: 0 0 10px;
+	font-size: 13px;
+	color: #646970;
+}
+
+.barar-otp__field {
+	margin: 0 0 12px;
+}
+
+.barar-otp__field label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: 600;
+	color: var(--barar-label, #1d2327);
+}
+
+.barar-otp__optional {
+	font-weight: 400;
+	font-size: 12px;
+	color: #8c8f94;
+}
+
+.barar-otp__input {
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+	font: inherit;
+	color: #2c3338;
+	background: var(--barar-surface, #fff);
+	border: 1px solid var(--barar-border, #c3c4c7);
+	border-radius: var(--barar-radius, 6px);
+	padding: 9px 11px;
+	box-shadow: none;
+}
+
+.barar-otp__input:focus {
+	border-color: var(--barar-primary, #1e6dd8);
+	box-shadow: 0 0 0 1px var(--barar-primary, #1e6dd8);
+	outline: 2px solid transparent;
+}
+
+.barar-otp__password-wrap {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.barar-otp__password-wrap .barar-otp__input {
+	flex: 1;
+	padding-right: 44px;
+}
+
+.barar-otp__password-toggle {
+	position: absolute;
+	right: 8px;
+	top: 50%;
+	transform: translateY(-50%);
+	background: none;
+	border: none;
+	padding: 4px;
+	cursor: pointer;
+	color: #8c8f94;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 4px;
+	transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.barar-otp__password-toggle:hover,
+.barar-otp__password-toggle:focus {
+	color: var(--barar-primary, #1e6dd8);
+	background: #f0f0f1;
+}
+
+.barar-otp__password-toggle[aria-pressed="true"] {
+	color: var(--barar-primary, #1e6dd8);
+}
+
+.barar-otp__eye-icon,
+.barar-otp__eye-off-icon {
+	width: 20px;
+	height: 20px;
+}
+
+.barar-otp__code {
+	max-width: 240px;
+	font-size: 20px;
+	letter-spacing: 0.35em;
+	text-align: center;
+	font-variant-numeric: tabular-nums;
+}
+
+.barar-otp__actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+	margin: 0 0 12px;
+}
+
+.barar-otp__actions .button {
+	font: inherit;
+	cursor: pointer;
+}
+
+.barar-otp__resend[disabled],
+.barar-otp__send[disabled],
+.barar-otp__verify[disabled] {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.barar-otp__back {
+	font: inherit;
+	font-size: 13px;
+	color: var(--barar-primary, #1e6dd8);
+	background: none;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.barar-otp__change {
+	font-size: 13px;
+}
+
+.barar-otp__spinner {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	box-sizing: border-box;
+	border: 2px solid #c3c4c7;
+	border-top-color: var(--barar-primary, #1e6dd8);
+	border-radius: 50%;
+	animation: barar-otp-spin 0.8s linear infinite;
+	vertical-align: middle;
+}
+
+@keyframes barar-otp-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.barar-otp__spinner {
+		animation-duration: 2.4s;
+	}
+}
+
+/* Narrow screens / stacked theme forms. */
+@media (max-width: 480px) {
+	.barar-otp__body {
+		padding: 14px;
+	}
+
+	.barar-otp__code {
+		max-width: 100%;
+	}
+}
+
+/* Right-to-left languages. */
+[dir="rtl"] .barar-otp__actions {
+	justify-content: flex-start;
+}
+
+/* -----------------------------------------------------------------------
+ * Inline injection into the native WooCommerce forms (wc_inject mode).
+ * The controls sit inside .woocommerce-form-login / .woocommerce-form-register,
+ * so they adopt a lighter, form-like presentation.
+ * -------------------------------------------------------------------- */
+
+.barar-otp--inline {
+	margin: 16px 0 0;
+	padding-top: 14px;
+	border-top: 1px dashed #dcdcde;
+	max-width: 470px;
+}
+
+.barar-otp__tabs {
+	display: inline-flex;
+	gap: 4px;
+	padding: 4px;
+	margin: 0 0 12px;
+	background: #f0f0f1;
+	border: 1px solid #dcdcde;
+	border-radius: 9px;
+}
+
+.barar-otp__tab {
+	font: inherit;
+	font-size: 13.5px;
+	font-weight: 600;
+	line-height: 1.2;
+	color: #50575e;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 7px;
+	padding: 7px 14px;
+	cursor: pointer;
+	transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.barar-otp__tab:hover {
+	color: var(--barar-primary, #1e6dd8);
+}
+
+.barar-otp__tab.is-active {
+	color: var(--barar-primary, #1e6dd8);
+	background: #fff;
+	border-color: #dcdcde;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.barar-otp__tab:focus-visible {
+	outline: 2px solid var(--barar-primary, #1e6dd8);
+	outline-offset: 1px;
+}
+
+/* Inside the form the body reads as a continuation of the form itself. */
+.barar-otp--inline .barar-otp__body {
+	margin-top: 0;
+	max-width: none;
+	background: #f6f7f7;
+}
+
+/* The status line needs breathing room below the tabs. */
+.barar-otp--inline .barar-otp__status {
+	min-height: 1.3em;
+}
+
+@media (max-width: 480px) {
+	.barar-otp--inline {
+		max-width: none;
+	}
+
+	.barar-otp__tabs {
+		display: flex;
+		width: 100%;
+	}
+
+	.barar-otp__tab {
+		flex: 1;
+		text-align: center;
+	}
+}
+
+/* -----------------------------------------------------------------------
+ * Native password fields (WordPress login/register, WooCommerce forms):
+ * the eye icon injected by assets/otp.js when the toggle setting is on.
+ * -------------------------------------------------------------------- */
+
+.barar-pwd {
+	position: relative;
+	display: block;
+	width: 100%;
+}
+
+.barar-pwd input[type="password"],
+.barar-pwd input[type="text"] {
+	width: 100%;
+	box-sizing: border-box;
+	padding-right: 42px;
+}
+
+.barar-pwd__toggle {
+	position: absolute;
+	right: 6px;
+	top: 50%;
+	transform: translateY(-50%);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: none;
+	border: 0;
+	padding: 4px;
+	cursor: pointer;
+	color: #8c8f94;
+	border-radius: 4px;
+	transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.barar-pwd__toggle:hover,
+.barar-pwd__toggle:focus {
+	color: var(--barar-primary, #1e6dd8);
+	background: #f0f0f1;
+}
+
+.barar-pwd__toggle[aria-pressed="true"] {
+	color: var(--barar-primary, #1e6dd8);
+}
+
+.barar-eye {
+	width: 20px;
+	height: 20px;
+}
+
+/* Password reset panel: the new password lives in the code step. */
+.barar-otp__step--code .barar-otp__password-wrap {
+	max-width: 320px;
+}
+
+/* ---------------------------------------------------------------------
+ * Checkout panels (WooCommerce before the checkout form)
+ * ------------------------------------------------------------------ */
+
+.barar-checkout-otp-wrap {
+	margin: 0 0 24px;
+}
+
+.barar-checkout-otp {
+	background: var(--barar-surface, #fff);
+	border: 1px solid var(--barar-border, #d9dee7);
+	border-radius: var(--barar-radius, 10px);
+	padding: 18px 20px;
+	max-width: var(--barar-width, 460px);
+}
+
+.barar-checkout-otp__note {
+	margin: 0 0 12px;
+	font-size: var(--barar-font, 15px);
+	color: var(--barar-label, #475467);
+	line-height: 1.5;
+}
+
+.barar-checkout-otp .barar-otp {
+	border: 0;
+	padding: 0;
+	margin: 0;
+	background: transparent;
+	max-width: none;
+}
+
+@media (max-width: 480px) {
+	.barar-checkout-otp {
+		padding: 14px 16px;
+	}
+}
+
+/* -----------------------------------------------------------------------
+ * Checkout authentication tabs.
+ *
+ * These sit in the "enable login during checkout" area that WooCommerce
+ * renders at full width, so they are laid out on their own rather than
+ * inheriting the narrower inline treatment above.
+ * -------------------------------------------------------------------- */
+
+.barar-checkout-auth [hidden] {
+	display: none !important;
+}
+
+.barar-checkout-auth {
+	margin: 0 0 24px;
+}
+
+.barar-checkout-auth__tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	padding: 4px;
+	margin: 0 0 16px;
+	background: #f0f0f1;
+	border: 1px solid #dcdcde;
+	border-radius: 9px;
+}
+
+.barar-checkout-auth__tab {
+	flex: 1 1 auto;
+	min-width: 0;
+	font: inherit;
+	font-size: 13.5px;
+	font-weight: 600;
+	line-height: 1.2;
+	color: #50575e;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 7px;
+	padding: 8px 14px;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.barar-checkout-auth__tab:hover {
+	color: var(--barar-primary, #1e6dd8);
+}
+
+.barar-checkout-auth__tab.is-active {
+	color: var(--barar-primary, #1e6dd8);
+	background: #fff;
+	border-color: #dcdcde;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.barar-checkout-auth__tab:focus-visible {
+	outline: 2px solid var(--barar-primary, #1e6dd8);
+	outline-offset: 1px;
+}
+
+.barar-checkout-auth__panel > *:first-child {
+	margin-top: 0;
+}
+
+/* WooCommerce's own login block, reprinted inside a tab. */
+.barar-checkout-auth__panel .woocommerce-form-login,
+.barar-checkout-auth__panel .woocommerce-form-register {
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
+/* -----------------------------------------------------------------------
+ * Checkout authentication popup.
+ * -------------------------------------------------------------------- */
+
+.barar-auth-popup {
+	margin: 0 0 24px;
+}
+
+.barar-auth-popup__open {
+	font: inherit;
+	font-weight: 600;
+	line-height: 1.3;
+	color: var(--barar-primary, #1e6dd8);
+	background: transparent;
+	border: 1px solid var(--barar-primary, #1e6dd8);
+	border-radius: 6px;
+	padding: 10px 18px;
+	cursor: pointer;
+}
+
+.barar-auth-popup__open:hover,
+.barar-auth-popup__open:focus-visible {
+	background: rgba(30, 109, 216, 0.08);
+}
+
+.barar-auth-popup__dialog[hidden] {
+	display: none !important;
+}
+
+.barar-auth-popup__dialog {
+	position: fixed;
+	inset: 0;
+	z-index: 100000;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	padding: 40px 16px;
+	overflow-y: auto;
+}
+
+.barar-auth-popup__backdrop {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.55);
+}
+
+.barar-auth-popup__panel {
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	max-width: 520px;
+	background: var(--barar-surface, #fff);
+	border: 1px solid var(--barar-border, #dcdcde);
+	border-radius: var(--barar-radius, 10px);
+	padding: 26px 24px 22px;
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+	animation: barar-auth-popup-in 0.16s ease-out;
+}
+
+@keyframes barar-auth-popup-in {
+	from {
+		opacity: 0;
+		transform: translateY(-8px);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* Stop the page behind the dialog from scrolling with it. */
+body.barar-auth-popup--open {
+	overflow: hidden;
+}
+
+.barar-auth-popup__title {
+	margin: 0 0 16px;
+	font-size: 1.15em;
+	line-height: 1.3;
+}
+
+.barar-auth-popup__close {
+	position: absolute;
+	right: 8px;
+	top: 6px;
+	font: inherit;
+	font-size: 26px;
+	line-height: 1;
+	color: #50575e;
+	background: none;
+	border: 0;
+	padding: 6px 10px;
+	cursor: pointer;
+	border-radius: 5px;
+}
+
+.barar-auth-popup__close:hover,
+.barar-auth-popup__close:focus-visible {
+	color: #1d2327;
+	background: #f0f0f1;
+}
+
+@media (max-width: 600px) {
+	.barar-auth-popup__dialog {
+		padding: 0;
+		align-items: stretch;
+	}
+
+	.barar-auth-popup__panel {
+		max-width: none;
+		min-height: 100%;
+		border: 0;
+		border-radius: 0;
+		padding: 32px 18px 24px;
+	}
+}
+
+/* -----------------------------------------------------------------------
+ * Guest checkout verification popup (Place Order opens it).
+ * -------------------------------------------------------------------- */
+
+.barar-verify-popup__dialog[hidden] {
+	display: none !important;
+}
+
+.barar-verify-popup__dialog {
+	position: fixed;
+	inset: 0;
+	z-index: 100001;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	padding: 40px 16px;
+	overflow-y: auto;
+}
+
+.barar-verify-popup__backdrop {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.55);
+}
+
+.barar-verify-popup__panel {
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	max-width: 520px;
+	background: var(--barar-surface, #fff);
+	border: 1px solid var(--barar-border, #dcdcde);
+	border-radius: var(--barar-radius, 10px);
+	padding: 26px 24px 22px;
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+	animation: barar-auth-popup-in 0.16s ease-out;
+}
+
+/* Stop the page behind the dialog from scrolling with it. */
+body.barar-verify-popup--open {
+	overflow: hidden;
+}
+
+.barar-verify-popup__title {
+	margin: 0 0 16px;
+	font-size: 1.15em;
+	line-height: 1.3;
+}
+
+.barar-verify-popup__close {
+	position: absolute;
+	right: 8px;
+	top: 6px;
+	font: inherit;
+	font-size: 26px;
+	line-height: 1;
+	color: #50575e;
+	background: none;
+	border: 0;
+	padding: 6px 10px;
+	cursor: pointer;
+	border-radius: 5px;
+}
+
+.barar-verify-popup__close:hover,
+.barar-verify-popup__close:focus-visible {
+	color: #1d2327;
+	background: #f0f0f1;
+}
+
+/* The widget is already a card; inside the dialog panel it must not draw
+   a second one around itself. */
+.barar-verify-popup__panel .barar-verify {
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	border: 0;
+}
+
+@media (max-width: 600px) {
+	.barar-verify-popup__dialog {
+		padding: 0;
+		align-items: stretch;
+	}
+
+	.barar-verify-popup__panel {
+		max-width: none;
+		min-height: 100%;
+		border: 0;
+		border-radius: 0;
+		padding: 32px 18px 24px;
+	}
+}
+
+@media (max-width: 480px) {
+	.barar-checkout-auth__tabs {
+		display: flex;
+	}
+
+	.barar-checkout-auth__tab {
+		flex: 1 1 100%;
+		text-align: center;
+	}
+}
+
+/* -----------------------------------------------------------------------
+ * Guest checkout verification.
+ * -------------------------------------------------------------------- */
+
+.barar-verify [hidden] {
+	display: none !important;
+}
+
+.barar-verify {
+	margin: 0 0 16px;
+	padding: 14px 16px;
+	font-size: var(--barar-font, 15px);
+	background: var(--barar-surface, #f6f7f7);
+	border: 1px solid var(--barar-border, #d9dee7);
+	border-radius: var(--barar-radius, 10px);
+	text-align: left;
+}
+
+.barar-verify__note {
+	margin: 0 0 10px;
+	color: var(--barar-label, #475467);
+	line-height: 1.5;
+}
+
+.barar-verify__status {
+	margin: 0 0 10px;
+	min-height: 1.3em;
+	font-size: 0.93em;
+	line-height: 1.4;
+}
+
+.barar-verify__status:empty {
+	margin-bottom: 0;
+}
+
+.barar-verify__status.is-error {
+	color: #b32d2e;
+}
+
+.barar-verify__status.is-success {
+	color: #007017;
+}
+
+.barar-verify__target {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 6px;
+	margin: 0 0 6px;
+	font-size: 0.93em;
+	line-height: 1.4;
+}
+
+.barar-verify__target-label {
+	flex: 0 0 auto;
+	color: var(--barar-label, #50575e);
+}
+
+.barar-verify__target-value {
+	flex: 1 1 auto;
+	min-width: 0;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 0.95em;
+	word-break: break-word;
+}
+
+.barar-verify__edit {
+	font: inherit;
+	font-size: 0.9em;
+	color: var(--barar-primary, #1e6dd8);
+	background: none;
+	border: 0;
+	padding: 2px 4px;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.barar-verify__field {
+	margin: 0 0 12px;
+}
+
+.barar-verify__field label {
+	display: block;
+	margin: 0 0 4px;
+	font-size: 0.93em;
+	color: var(--barar-label, #50575e);
+}
+
+.barar-verify__input {
+	font: inherit;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 9px 11px;
+	background: #fff;
+	border: 1px solid var(--barar-border, #c3c4c7);
+	border-radius: var(--barar-radius, 6px);
+}
+
+.barar-verify__input:focus {
+	border-color: var(--barar-primary, #1e6dd8);
+	box-shadow: 0 0 0 1px var(--barar-primary, #1e6dd8);
+	outline: none;
+}
+
+.barar-verify__input[readonly] {
+	background: #f6f7f7;
+	color: var(--barar-label, #50575e);
+}
+
+.barar-verify__hint {
+	margin: 0 0 10px;
+	font-size: 0.93em;
+	color: var(--barar-label, #50575e);
+}
+
+.barar-verify__actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	margin: 0 0 8px;
+}
+
+.barar-verify__actions:last-child {
+	margin-bottom: 0;
+}
+
+.barar-verify__spinner {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	border: 2px solid rgba(0, 0, 0, 0.15);
+	border-top-color: var(--barar-primary, #1e6dd8);
+	border-radius: 50%;
+	animation: barar-verify-spin 0.7s linear infinite;
+}
+
+@keyframes barar-verify-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* The widget's own buttons must not inherit a theme's full-width rule. */
+.barar-verify__actions .button {
+	display: inline-block;
+	width: auto;
+	margin: 0;
+}
+
+.barar-verify__done {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	margin: 0;
+	font-weight: 600;
+	color: #007017;
+}
+
+.barar-verify__done[hidden] {
+	display: none !important;
+}
+
+.barar-verify__done-mark {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	font-size: 13px;
+	color: #fff;
+	background: #007017;
+	border-radius: 50%;
+}
+
+.barar-verify__done .barar-verify__restart {
+	display: inline-block;
+	width: auto;
+	margin: 0;
+	font-weight: 400;
+	font-size: 0.85em;
+}
+
+/* The disabled Place Order button has to read as disabled, since WooCommerce
+ * also guards it with its own class in some versions. */
+#place_order[disabled],
+#place_order.is-disabled {
+	opacity: 0.55;
+	cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.barar-auth-popup__panel,
+	.barar-verify-popup__panel,
+	.barar-verify__spinner {
+		animation: none;
+	}
+}

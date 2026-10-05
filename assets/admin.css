@@ -1,0 +1,2769 @@
+/**
+ * Barar Atik SMS OTP — admin interface.
+ *
+ * A small, self-contained design system: every rule is scoped to .barar-admin
+ * or a barar-* class (the toast is the single exception, it is appended to
+ * <body>), so no WordPress or WooCommerce admin style is ever changed.
+ *
+ * @package Barar_Atik
+ */
+
+/* ---------------------------------------------------------------------
+ * 1. Design tokens
+ * ------------------------------------------------------------------ */
+
+:root {
+	--barar-brand: #2563eb;
+	--barar-brand-dark: #1d4ed8;
+	--barar-brand-soft: #eff4ff;
+	--barar-ink: #101828;
+	--barar-ink-2: #344054;
+	--barar-muted: #667085;
+	--barar-faint: #98a2b3;
+	--barar-line: #e4e7ec;
+	--barar-line-soft: #eef0f4;
+	--barar-surface: #ffffff;
+	--barar-surface-2: #f9fafb;
+	--barar-ok: #12b76a;
+	--barar-ok-ink: #027a48;
+	--barar-warn: #f79009;
+	--barar-warn-ink: #b54708;
+	--barar-err: #f04438;
+	--barar-err-ink: #b42318;
+	--barar-radius: 12px;
+	--barar-radius-sm: 8px;
+	--barar-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+	--barar-shadow-md: 0 6px 18px rgba(16, 24, 40, 0.1);
+	--barar-focus: 0 0 0 3px rgba(37, 99, 235, 0.16);
+}
+
+/* ---------------------------------------------------------------------
+ * 2. Page shell
+ * ------------------------------------------------------------------ */
+
+.barar-admin {
+	max-width: 1440px;
+	padding-bottom: 40px;
+	color: var(--barar-ink);
+}
+
+.barar-admin h1 {
+	margin: 10px 0 0;
+	padding-top: 8px;
+	font-size: 23px;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	color: var(--barar-ink);
+}
+
+.barar-admin .description {
+	color: var(--barar-muted);
+	font-size: 12.5px;
+	line-height: 1.55;
+}
+
+.barar-admin .notice {
+	border-radius: var(--barar-radius-sm);
+}
+
+/* ---------------------------------------------------------------------
+ * 3. Section navigation
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-nav {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	width: fit-content;
+	max-width: 100%;
+	margin: 16px 0 20px;
+	padding: 5px;
+	background: #eef1f6;
+	border: 1px solid var(--barar-line);
+	border-radius: 12px;
+}
+
+.barar-admin .barar-nav__item {
+	display: inline-block;
+	padding: 8px 16px;
+	border-radius: 8px;
+	border: 1px solid transparent;
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.3;
+	color: var(--barar-muted);
+	text-decoration: none;
+	white-space: nowrap;
+	transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.barar-admin .barar-nav__item:hover {
+	color: var(--barar-brand);
+	background: rgba(255, 255, 255, 0.72);
+}
+
+.barar-admin .barar-nav__item.is-active {
+	color: var(--barar-brand);
+	background: var(--barar-surface);
+	border-color: var(--barar-line);
+	box-shadow: var(--barar-shadow);
+}
+
+.barar-admin .barar-nav__item:focus-visible {
+	outline: 2px solid var(--barar-brand);
+	outline-offset: 1px;
+}
+
+/* ---------------------------------------------------------------------
+ * 4. Cards and grids
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+	gap: 16px;
+	margin: 18px 0;
+}
+
+.barar-admin .barar-cards--stats {
+	grid-template-columns: repeat(auto-fit, minmax(158px, 1fr));
+	gap: 14px;
+}
+
+.barar-admin .barar-cards--split {
+	grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+}
+
+.barar-admin .barar-card {
+	background: var(--barar-surface);
+	border: 1px solid var(--barar-line);
+	border-radius: var(--barar-radius);
+	padding: 16px 18px 18px;
+	box-shadow: var(--barar-shadow);
+}
+
+.barar-admin .barar-card h3 {
+	margin: 0 0 10px;
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: -0.005em;
+	color: var(--barar-ink);
+}
+
+.barar-admin .barar-card__body {
+	font-size: 13px;
+	color: var(--barar-ink-2);
+}
+
+.barar-admin .barar-card__body > p:first-child {
+	margin-top: 0;
+}
+
+.barar-admin .barar-card__body > p:last-child {
+	margin-bottom: 0;
+}
+
+.barar-admin .barar-card--full {
+	grid-column: 1 / -1;
+}
+
+.barar-admin .barar-card--stat {
+	padding: 14px 16px;
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.barar-admin .barar-card--stat:hover {
+	transform: translateY(-1px);
+	box-shadow: var(--barar-shadow-md);
+}
+
+.barar-admin .barar-card--stat h3 {
+	margin-bottom: 6px;
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.07em;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-card--alert {
+	border-color: #fecdca;
+	background: #fffbfa;
+}
+
+.barar-admin .barar-card--alert h3 {
+	color: var(--barar-err-ink);
+}
+
+.barar-admin .barar-stat {
+	margin: 0;
+	font-size: 28px;
+	font-weight: 800;
+	line-height: 1.05;
+	letter-spacing: -0.02em;
+	color: var(--barar-ink);
+	font-variant-numeric: tabular-nums;
+}
+
+.barar-admin .barar-stat-sub {
+	margin: 6px 0 0;
+	font-size: 12px;
+	color: var(--barar-muted);
+}
+
+/* ---------------------------------------------------------------------
+ * 5. Dashboard: checklist and feed
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-checklist {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.barar-admin .barar-checklist li {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 11px 2px;
+	border-bottom: 1px solid var(--barar-line-soft);
+}
+
+.barar-admin .barar-checklist li:first-child {
+	padding-top: 2px;
+}
+
+.barar-admin .barar-checklist li:last-child {
+	border-bottom: 0;
+	padding-bottom: 2px;
+}
+
+.barar-admin .barar-checklist__text {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	flex: 1;
+	min-width: 0;
+}
+
+.barar-admin .barar-checklist__text strong {
+	font-size: 13px;
+	color: var(--barar-ink);
+}
+
+.barar-admin .barar-checklist__text span {
+	font-size: 12px;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-feed {
+	list-style: none;
+	margin: 0 0 14px;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.barar-admin .barar-feed li {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	min-width: 0;
+	padding: 8px 10px;
+	background: var(--barar-surface-2);
+	border: 1px solid var(--barar-line-soft);
+	border-radius: var(--barar-radius-sm);
+	font-size: 12.5px;
+}
+
+.barar-admin .barar-feed .barar-badge {
+	flex: none;
+	font-size: 10.5px;
+	padding: 2px 7px;
+}
+
+.barar-admin .barar-feed code {
+	flex: none;
+	padding: 2px 6px;
+	background: #eef1f6;
+	border-radius: 6px;
+	font-size: 12px;
+	color: var(--barar-ink-2);
+}
+
+.barar-admin .barar-feed__text {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-feed__time {
+	flex: none;
+	font-size: 11.5px;
+	color: var(--barar-faint);
+	white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------------
+ * 6. Two-column layout (settings + sticky macro sidebar)
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 330px;
+	gap: 22px;
+	align-items: start;
+	margin-top: 6px;
+}
+
+.barar-admin .barar-main {
+	min-width: 0;
+}
+
+.barar-admin .barar-side .barar-macros {
+	position: sticky;
+	top: 46px;
+	max-height: calc(100vh - 70px);
+	overflow-y: auto;
+}
+
+@media (max-width: 960px) {
+	.barar-admin .barar-layout {
+		grid-template-columns: 1fr;
+	}
+
+	.barar-admin .barar-side .barar-macros {
+		position: static;
+		max-height: none;
+	}
+}
+
+/* ---------------------------------------------------------------------
+ * 7. Forms
+ * ------------------------------------------------------------------ */
+
+.barar-admin form h2 {
+	margin: 30px 0 4px;
+	padding-top: 22px;
+	border-top: 1px solid var(--barar-line-soft);
+	font-size: 15px;
+	font-weight: 700;
+	letter-spacing: -0.005em;
+	color: var(--barar-ink);
+}
+
+.barar-admin form h2:first-of-type {
+	margin-top: 8px;
+	padding-top: 0;
+	border-top: 0;
+}
+
+.barar-admin form h2 + p.description {
+	margin: 2px 0 4px;
+}
+
+.barar-admin .form-table {
+	margin-top: 10px;
+}
+
+.barar-admin .form-table th {
+	width: 280px;
+	padding: 15px 22px 15px 0;
+	vertical-align: top;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--barar-ink-2);
+	text-align: start;
+}
+
+.barar-admin .form-table td {
+	padding: 15px 0;
+	vertical-align: middle;
+}
+
+.barar-admin .form-table td p {
+	margin-top: 6px;
+}
+
+.barar-admin .form-table input[type="text"],
+.barar-admin .form-table input[type="url"],
+.barar-admin .form-table input[type="number"],
+.barar-admin .form-table input[type="search"],
+.barar-admin .form-table input[type="password"],
+.barar-admin .form-table input[type="email"],
+.barar-admin .form-table select,
+.barar-admin .form-table textarea,
+.barar-admin .barar-filters select,
+.barar-admin .barar-filters input[type="search"] {
+	box-sizing: border-box;
+	border: 1px solid #d0d5dd;
+	border-radius: var(--barar-radius-sm);
+	background: var(--barar-surface);
+	color: var(--barar-ink);
+	font-size: 13px;
+	padding: 8px 11px;
+	box-shadow: none;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.barar-admin .form-table select {
+	padding: 8px 30px 8px 11px;
+	max-width: 100%;
+}
+
+.barar-admin .form-table textarea {
+	line-height: 1.55;
+	resize: vertical;
+}
+
+.barar-admin .form-table input:focus,
+.barar-admin .form-table select:focus,
+.barar-admin .form-table textarea:focus,
+.barar-admin .barar-filters input:focus,
+.barar-admin .barar-filters select:focus {
+	border-color: var(--barar-brand);
+	box-shadow: var(--barar-focus);
+	outline: none;
+}
+
+.barar-admin .form-table input::placeholder,
+.barar-admin .form-table textarea::placeholder {
+	color: var(--barar-faint);
+}
+
+/* Labels next to checkboxes / inside cells. */
+.barar-admin .form-table td label {
+	display: inline-flex;
+	align-items: center;
+	gap: 9px;
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--barar-ink-2);
+	cursor: pointer;
+}
+
+.barar-admin .form-table .barar-secret,
+.barar-admin .form-table .barar-copy-row {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	max-width: 560px;
+}
+
+.barar-admin .form-table .barar-secret input,
+.barar-admin .form-table .barar-copy-input {
+	flex: 1;
+	min-width: 0;
+}
+
+.barar-admin .barar-tool-table th {
+	width: 170px;
+	padding: 11px 16px 11px 0;
+}
+
+.barar-admin .barar-tool-table td {
+	padding: 11px 0;
+}
+
+/* Pill switches (all plugin checkboxes). */
+.barar-admin input[type="checkbox"] {
+	-webkit-appearance: none;
+	appearance: none;
+	accent-color: var(--barar-brand);
+	position: relative;
+	box-sizing: border-box;
+	flex: none;
+	width: 38px;
+	height: 22px;
+	margin: 0;
+	border: 1px solid #d0d5dd;
+	border-radius: 999px;
+	background: #d0d5dd;
+	cursor: pointer;
+	transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.barar-admin input[type="checkbox"]::after {
+	content: "";
+	position: absolute;
+	top: 2px;
+	inset-inline-start: 2px;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: #fff;
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.25);
+	transition: transform 0.15s ease;
+}
+
+.barar-admin input[type="checkbox"]:checked {
+	background: var(--barar-brand);
+	border-color: var(--barar-brand);
+}
+
+.barar-admin input[type="checkbox"]:checked::after {
+	transform: translateX(16px);
+}
+
+.barar-admin input[type="checkbox"]:focus-visible {
+	outline: 2px solid var(--barar-brand);
+	outline-offset: 2px;
+}
+
+.barar-admin input[type="checkbox"]:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.barar-admin input[type="radio"] {
+	accent-color: var(--barar-brand);
+	margin: 0 6px 0 0;
+	vertical-align: middle;
+}
+
+.barar-admin p.submit {
+	margin: 24px 0 8px;
+	padding-top: 18px;
+	border-top: 1px solid var(--barar-line-soft);
+}
+
+/* ---------------------------------------------------------------------
+ * 8. Buttons
+ * ------------------------------------------------------------------ */
+
+.barar-admin .button {
+	box-sizing: border-box;
+	height: 32px;
+	line-height: 30px;
+	margin: 0;
+	padding: 0 13px;
+	border: 1px solid #d0d5dd;
+	border-radius: var(--barar-radius-sm);
+	background: var(--barar-surface);
+	color: var(--barar-ink-2);
+	font-size: 13px;
+	font-weight: 600;
+	box-shadow: none;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.barar-admin .button:hover {
+	background: var(--barar-surface-2);
+	border-color: #98a2b3;
+	color: var(--barar-ink);
+}
+
+.barar-admin .button:active {
+	background: #f2f4f7;
+}
+
+.barar-admin .button:focus-visible {
+	outline: 2px solid var(--barar-brand);
+	outline-offset: 2px;
+}
+
+.barar-admin .button-primary {
+	background: var(--barar-brand);
+	border-color: var(--barar-brand);
+	color: #fff;
+}
+
+.barar-admin .button-primary:hover {
+	background: var(--barar-brand-dark);
+	border-color: var(--barar-brand-dark);
+	color: #fff;
+}
+
+.barar-admin p.submit .button-primary {
+	height: 38px;
+	line-height: 36px;
+	padding: 0 22px;
+	border-radius: 10px;
+	font-size: 14px;
+}
+
+.barar-admin .button-small {
+	height: 26px;
+	line-height: 24px;
+	padding: 0 10px;
+	font-size: 12px;
+}
+
+/* ---------------------------------------------------------------------
+ * 9. Secret fields, copy rows, counters
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-counter {
+	display: block;
+	min-height: 16px;
+	margin-top: 5px;
+	text-align: end;
+	font-size: 12px;
+	color: var(--barar-muted);
+	font-variant-numeric: tabular-nums;
+}
+
+.barar-admin .barar-toggle-secret[aria-pressed="true"] {
+	color: var(--barar-brand);
+	border-color: var(--barar-brand);
+}
+
+/* ---------------------------------------------------------------------
+ * 10. Macro chips
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-macro-group + .barar-macro-group {
+	margin-top: 14px;
+}
+
+.barar-admin .barar-macro-group h4 {
+	margin: 0 0 7px;
+	font-size: 10.5px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.07em;
+	color: var(--barar-faint);
+}
+
+.barar-admin .barar-macros .barar-macro {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	width: 100%;
+	box-sizing: border-box;
+	margin: 0 0 6px;
+	padding: 7px 10px;
+	border: 1px solid var(--barar-line);
+	border-radius: var(--barar-radius-sm);
+	background: var(--barar-surface);
+	color: var(--barar-ink-2);
+	font-size: 12px;
+	font-weight: 500;
+	text-align: start;
+	cursor: pointer;
+	transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.barar-admin .barar-macros .barar-macro:hover {
+	background: var(--barar-brand-soft);
+	border-color: #b2ccff;
+	color: var(--barar-brand-dark);
+}
+
+.barar-admin .barar-macros .barar-macro code {
+	flex: none;
+	font-size: 11.5px;
+	color: var(--barar-brand-dark);
+	background: var(--barar-brand-soft);
+	border: 1px solid #dbe6ff;
+	border-radius: 6px;
+	padding: 1px 6px;
+}
+
+.barar-admin .barar-macros .barar-macro span {
+	flex: 1;
+	min-width: 0;
+	color: var(--barar-muted);
+}
+
+/* Inline macro rows (OTP page). */
+.barar-admin .barar-macro-inline {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 7px;
+	margin: 0;
+}
+
+.barar-admin .barar-macro-inline .barar-macro {
+	display: inline-flex;
+	margin: 0;
+	padding: 4px 9px;
+	border-radius: 999px;
+	background: var(--barar-surface-2);
+}
+
+.barar-admin .barar-macro-inline .barar-macro code {
+	background: transparent;
+	border: 0;
+	padding: 0;
+	font-size: 12px;
+}
+
+/* ---------------------------------------------------------------------
+ * 11. Badges and status dots
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 3px 9px;
+	border-radius: 999px;
+	border: 1px solid transparent;
+	font-size: 11.5px;
+	font-weight: 700;
+	line-height: 1.4;
+	letter-spacing: 0.01em;
+	white-space: nowrap;
+}
+
+.barar-admin .barar-badge--pending {
+	background: #fffaeb;
+	border-color: #fedf89;
+	color: var(--barar-warn-ink);
+}
+
+.barar-admin .barar-badge--dispatched {
+	background: #eff8ff;
+	border-color: #b2ddff;
+	color: #175cd3;
+}
+
+.barar-admin .barar-badge--sent {
+	background: #ecfdf3;
+	border-color: #abefc6;
+	color: var(--barar-ok-ink);
+}
+
+.barar-admin .barar-badge--delivered {
+	background: #d1fadf;
+	border-color: #6ce9a6;
+	color: #05603a;
+}
+
+.barar-admin .barar-badge--received {
+	background: #f4f3ff;
+	border-color: #d9d6ff;
+	color: #5925dc;
+}
+
+.barar-admin .barar-badge--failed {
+	background: #fef3f2;
+	border-color: #fecdca;
+	color: var(--barar-err-ink);
+}
+
+.barar-admin .barar-badge--unknown {
+	background: #f2f4f7;
+	border-color: #e4e7ec;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-dot {
+	display: inline-block;
+	flex: none;
+	width: 9px;
+	height: 9px;
+	margin-inline-end: 7px;
+	border-radius: 50%;
+	background: var(--barar-faint);
+	vertical-align: middle;
+}
+
+.barar-admin .barar-dot--ok {
+	background: var(--barar-ok);
+	box-shadow: 0 0 0 3px rgba(18, 183, 106, 0.15);
+}
+
+.barar-admin .barar-dot--warn {
+	background: var(--barar-warn);
+	box-shadow: 0 0 0 3px rgba(247, 144, 9, 0.15);
+}
+
+.barar-admin .barar-dot--err {
+	background: var(--barar-err);
+	box-shadow: 0 0 0 3px rgba(240, 68, 56, 0.15);
+}
+
+.barar-admin .barar-dot--off {
+	background: #e4e7ec;
+	border: 1px solid #d0d5dd;
+}
+
+/* ---------------------------------------------------------------------
+ * 12. Event cards, recipients, details, inline info
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-event {
+	scroll-margin-top: 60px;
+}
+
+.barar-admin .barar-inline {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 14.5px;
+	font-weight: 700;
+	color: var(--barar-ink);
+	cursor: pointer;
+}
+
+.barar-admin .barar-recipients {
+	box-sizing: border-box;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	margin: 10px 0 12px;
+	padding: 0;
+	border: 0;
+}
+
+.barar-admin .barar-recipients legend {
+	float: none;
+	width: auto;
+	margin-bottom: 7px;
+	padding: 0;
+	font-size: 11.5px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-recipients label {
+	display: inline-flex;
+	align-items: center;
+	gap: 9px;
+	padding: 7px 12px;
+	background: var(--barar-surface-2);
+	border: 1px solid var(--barar-line);
+	border-radius: 999px;
+	font-size: 12.5px;
+	font-weight: 600;
+	color: var(--barar-ink-2);
+	cursor: pointer;
+	transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.barar-admin .barar-recipients label:hover {
+	background: var(--barar-brand-soft);
+	border-color: #b2ccff;
+}
+
+.barar-admin .barar-details {
+	margin-top: 8px;
+	padding-top: 8px;
+	border-top: 1px dashed var(--barar-line);
+}
+
+.barar-admin .barar-details summary {
+	font-size: 12.5px;
+	font-weight: 600;
+	color: var(--barar-muted);
+	cursor: pointer;
+}
+
+.barar-admin .barar-details summary:hover {
+	color: var(--barar-brand);
+}
+
+.barar-admin .barar-details[open] summary {
+	margin-bottom: 10px;
+}
+
+.barar-admin .barar-inline-card {
+	padding: 13px 15px;
+	background: var(--barar-brand-soft);
+	border: 1px solid #b2ccff;
+	border-radius: 10px;
+	font-size: 13px;
+}
+
+.barar-admin .barar-inline-card .barar-copy-row {
+	margin-top: 8px;
+}
+
+/* ---------------------------------------------------------------------
+ * 13. Tool results and rendered previews
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-tool-result {
+	display: block;
+	min-height: 18px;
+	margin-top: 8px;
+	font-size: 12.5px;
+	font-weight: 500;
+	line-height: 1.5;
+}
+
+.barar-admin .barar-tool-result.is-ok {
+	color: var(--barar-ok-ink);
+}
+
+.barar-admin .barar-tool-result.is-error {
+	color: var(--barar-err-ink);
+}
+
+.barar-admin .barar-tool-result.is-info {
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-preview-out {
+	display: block;
+	margin: 12px 0 0;
+	padding: 13px 15px;
+	border-radius: 10px;
+	background: #101828;
+	color: #e4e7ec;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 12.5px;
+	line-height: 1.6;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.barar-admin .barar-preview-meta {
+	margin-top: 7px;
+	font-size: 12px;
+	color: var(--barar-muted);
+}
+
+/* ---------------------------------------------------------------------
+ * 14. Filter bar and sync line
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-filters {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 12px 14px;
+	box-sizing: border-box;
+	margin: 16px 0 8px;
+	padding: 13px 15px;
+	background: var(--barar-surface);
+	border: 1px solid var(--barar-line);
+	border-radius: var(--barar-radius);
+	box-shadow: var(--barar-shadow);
+}
+
+.barar-admin .barar-filters label {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	font-size: 11.5px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-filters select,
+.barar-admin .barar-filters input {
+	min-width: 150px;
+	height: 34px;
+	margin: 0;
+	text-transform: none;
+	letter-spacing: normal;
+}
+
+.barar-admin .barar-filters input[type="search"] {
+	min-width: 220px;
+}
+
+.barar-admin .barar-filters .barar-tool-result {
+	flex: 1;
+	min-width: 140px;
+	margin-top: 0;
+	align-self: center;
+	text-align: end;
+}
+
+.barar-admin .barar-last-sync {
+	margin: 4px 0 14px;
+	font-size: 12px;
+	color: var(--barar-muted);
+}
+
+/* ---------------------------------------------------------------------
+ * 15. Message center table
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-messages {
+	box-sizing: border-box;
+	border: 1px solid var(--barar-line);
+	border-radius: var(--barar-radius);
+	background: var(--barar-surface);
+	overflow: clip; /* Clips the rounded corners without creating a scroll container (sticky header keeps working). */
+}
+
+.barar-admin .barar-messages thead th {
+	position: sticky;
+	top: 32px;
+	z-index: 2;
+	box-sizing: border-box;
+	padding: 11px 14px;
+	background: var(--barar-surface-2);
+	border-bottom: 1px solid var(--barar-line);
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-messages td {
+	padding: 11px 14px;
+	border-color: var(--barar-line-soft);
+	font-size: 13px;
+	color: var(--barar-ink-2);
+	vertical-align: top;
+}
+
+.barar-admin .barar-messages tbody tr:hover td {
+	background: var(--barar-brand-soft);
+}
+
+.barar-admin .barar-messages .barar-col-id {
+	width: 54px;
+	color: var(--barar-faint);
+	font-variant-numeric: tabular-nums;
+}
+
+.barar-admin .barar-messages .barar-col-dir {
+	width: 96px;
+	white-space: nowrap;
+	font-size: 12.5px;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-messages .barar-col-status {
+	width: 122px;
+}
+
+.barar-admin .barar-messages .barar-col-context {
+	width: 190px;
+}
+
+.barar-admin .barar-messages .barar-col-times {
+	width: 178px;
+	font-size: 12.5px;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-messages .barar-col-tb {
+	width: 170px;
+	font-size: 12.5px;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-messages code {
+	padding: 2px 6px;
+	background: #eef1f6;
+	border-radius: 6px;
+	font-size: 12.5px;
+	color: var(--barar-ink-2);
+}
+
+.barar-admin .barar-row-error {
+	margin-top: 5px;
+	font-size: 12px;
+	color: var(--barar-err-ink);
+	word-break: break-word;
+}
+
+.barar-admin .barar-row-sub {
+	margin-top: 4px;
+	font-size: 12px;
+	color: var(--barar-muted);
+	word-break: break-word;
+}
+
+.barar-admin .barar-messages mark {
+	background: #fffb8f;
+	color: var(--barar-ink);
+	padding: 0 2px;
+	border-radius: 2px;
+}
+
+.barar-admin .barar-messages .barar-empty td {
+	padding: 44px 20px;
+	text-align: center;
+	color: var(--barar-muted);
+	font-size: 13.5px;
+	background: var(--barar-surface);
+}
+
+.barar-admin .barar-pagination {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 7px;
+	margin: 14px 0 0;
+	font-size: 13px;
+	color: var(--barar-muted);
+}
+
+.barar-admin .barar-pagination a {
+	display: inline-block;
+	padding: 4px 10px;
+	border: 1px solid var(--barar-line);
+	border-radius: 7px;
+	background: var(--barar-surface);
+	color: var(--barar-ink-2);
+	font-size: 12.5px;
+	font-weight: 600;
+	text-decoration: none;
+	transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.barar-admin .barar-pagination a:hover {
+	background: var(--barar-brand-soft);
+	border-color: #b2ccff;
+	color: var(--barar-brand-dark);
+}
+
+.barar-admin .barar-pagination .current {
+	font-weight: 700;
+	color: var(--barar-ink);
+}
+
+/* ---------------------------------------------------------------------
+ * 16. Diagnostics pieces
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-checks {
+	box-sizing: border-box;
+	border: 1px solid var(--barar-line);
+	border-radius: 10px;
+	background: var(--barar-surface);
+	overflow: hidden;
+}
+
+.barar-admin .barar-checks td {
+	padding: 10px 14px;
+	border-color: var(--barar-line-soft);
+	font-size: 13px;
+	color: var(--barar-ink-2);
+}
+
+.barar-admin .barar-check-icon {
+	width: 46px;
+	text-align: center;
+}
+
+.barar-admin .barar-dupe {
+	margin-bottom: 14px;
+	padding: 13px 15px;
+	background: #fffcf5;
+	border: 1px solid #fedf89;
+	border-radius: 10px;
+	font-size: 13px;
+}
+
+.barar-admin .barar-dupe:last-child {
+	margin-bottom: 0;
+}
+
+.barar-admin .barar-dupe ul {
+	margin: 8px 0;
+	padding-inline-start: 20px;
+}
+
+.barar-admin .barar-dupe li {
+	margin-bottom: 4px;
+}
+
+.barar-admin .barar-inline-form {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	margin-top: 9px;
+}
+
+.barar-admin .barar-stat-list {
+	list-style: none;
+	margin: 8px 0 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+	font-size: 13px;
+	line-height: 1.55;
+	color: var(--barar-ink-2);
+}
+
+.barar-admin .barar-stat-list strong {
+	color: var(--barar-ink);
+	margin-inline-end: 5px;
+}
+
+.barar-admin .barar-stat-list code {
+	padding: 1px 6px;
+	background: #f2f4f7;
+	border-radius: 6px;
+	font-size: 12.5px;
+	color: var(--barar-ink-2);
+}
+
+/* ---------------------------------------------------------------------
+ * 17. Toast
+ * ------------------------------------------------------------------ */
+
+.barar-toast {
+	position: fixed;
+	inset-inline-end: 24px;
+	bottom: 24px;
+	z-index: 100001;
+	max-width: 340px;
+	padding: 12px 17px;
+	border-radius: 10px;
+	background: #101828;
+	color: #fff;
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.45;
+	box-shadow: 0 10px 30px rgba(16, 24, 40, 0.3);
+	opacity: 0;
+	transform: translateY(8px);
+	transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.barar-toast.is-error {
+	background: var(--barar-err-ink);
+}
+
+.barar-toast.is-in {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* ---------------------------------------------------------------------
+ * 18. Right-to-left
+ * ------------------------------------------------------------------ */
+
+[dir="rtl"] .barar-admin input[type="checkbox"]:checked::after {
+	transform: translateX(-16px);
+}
+
+/* ---------------------------------------------------------------------
+ * 19. Responsive
+ * ------------------------------------------------------------------ */
+
+@media (max-width: 1100px) {
+	.barar-admin .form-table th {
+		width: 230px;
+	}
+}
+
+@media (max-width: 782px) {
+	.barar-admin {
+		margin-right: 10px;
+	}
+
+	.barar-admin .barar-nav {
+		width: auto;
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		margin-bottom: 16px;
+	}
+
+	.barar-admin .form-table,
+	.barar-admin .form-table tbody,
+	.barar-admin .form-table tr,
+	.barar-admin .form-table th,
+	.barar-admin .form-table td {
+		display: block;
+		width: auto;
+	}
+
+	.barar-admin .form-table th {
+		padding: 14px 0 5px;
+	}
+
+	.barar-admin .form-table td {
+		padding: 0 0 14px;
+	}
+
+	.barar-admin .form-table .barar-secret,
+	.barar-admin .form-table .barar-copy-row {
+		max-width: none;
+	}
+
+	.barar-admin .barar-filters {
+		padding: 12px;
+	}
+
+	.barar-admin .barar-filters label,
+	.barar-admin .barar-filters select,
+	.barar-admin .barar-filters input {
+		width: 100%;
+		min-width: 0;
+	}
+
+	.barar-admin .barar-filters .barar-tool-result {
+		text-align: start;
+	}
+
+	.barar-admin .barar-messages {
+		display: block;
+		overflow-x: auto;
+	}
+
+	.barar-admin .barar-messages thead th {
+		position: static;
+	}
+
+	.barar-admin .barar-pagination {
+		justify-content: flex-start;
+	}
+}
+
+@media (max-width: 480px) {
+	.barar-admin .barar-cards,
+	.barar-admin .barar-cards--stats {
+		grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+		gap: 10px;
+	}
+
+	.barar-admin .barar-card {
+		padding: 14px;
+	}
+
+	.barar-admin .barar-stat {
+		font-size: 24px;
+	}
+}
+
+/* ---------------------------------------------------------------------
+ * 20. Reduced motion
+ * ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+	.barar-admin *,
+	.barar-admin *::before,
+	.barar-admin *::after,
+	.barar-toast {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+	}
+}
+
+/* ---------------------------------------------------------------------
+ * 21. Dashboard tabs
+ * ------------------------------------------------------------------ */
+
+.barar-admin .barar-tabset {
+	margin-top: 14px;
+}
+
+.barar-admin .barar-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	margin: 0 0 18px;
+	padding: 4px;
+	background: var(--barar-surface-2);
+	border: 1px solid var(--barar-line);
+	border-radius: 10px;
+}
+
+.barar-admin .barar-tab {
+	-webkit-appearance: none;
+	appearance: none;
+	font: inherit;
+	font-weight: 600;
+	font-size: 13px;
+	line-height: 1.4;
+	color: var(--barar-ink-2);
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 7px;
+	padding: 8px 14px;
+	cursor: pointer;
+	transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.barar-admin .barar-tab:hover {
+	color: var(--barar-brand);
+	background: rgba(255, 255, 255, 0.7);
+}
+
+.barar-admin .barar-tab:focus-visible {
+	outline: 2px solid var(--barar-brand);
+	outline-offset: 1px;
+}
+
+.barar-admin .barar-tab.is-active {
+	color: var(--barar-brand-dark);
+	background: var(--barar-surface);
+	border-color: var(--barar-line);
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06);
+}
+
+.barar-admin .barar-tabpanel,
+.barar-admin .barar-tabpanel[hidden] {
+	display: none;
+}
+
+.barar-admin .barar-tabpanel.is-active {
+	display: block;
+	animation: barar-tab-in 0.18s ease;
+}
+
+/* Copy rows outside a form table (dashboard cards). */
+.barar-admin .barar-card__body .barar-copy-row {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	max-width: 560px;
+	margin: 8px 0 0;
+}
+
+.barar-admin .barar-card__body .barar-copy-input {
+	flex: 1;
+	min-width: 0;
+}
+
+@keyframes barar-tab-in {
+	from {
+		opacity: 0;
+		transform: translateY(3px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@media (max-width: 600px) {
+	.barar-admin .barar-tabs {
+		flex-wrap: nowrap;
+		overflow-x: auto;
+	}
+
+	.barar-admin .barar-tab {
+		white-space: nowrap;
+	}
+}
+
+/* ---------------------------------------------------------------------
+ * 22. Redesigned screens — Connection · Authentication · Forms ·
+ *     Messages · Diagnostics
+ *
+ * A presentation-only overlay for those five screens. Every selector is
+ * anchored to the body class WordPress builds from the admin page hook
+ * (the same hook list Admin::assets() matches), so Dashboard, Automations
+ * and Design keep the design they have today. No markup, behaviour or
+ * saved value is touched — CSS only.
+ *
+ * The five page body classes used below:
+ *   .barar-atik-sms-otp_page_barar-atik-connection
+ *   .barar-atik-sms-otp_page_barar-atik-otp
+ *   .barar-atik-sms-otp_page_barar-atik-forms
+ *   .barar-atik-sms-otp_page_barar-atik-messages
+ *   .barar-atik-sms-otp_page_barar-atik-diagnostics
+ * ---------------------------------------------------------------------- */
+
+/* -- 22.1 Page title ------------------------------------------------- */
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin h1 {
+	position: relative;
+	margin: 6px 0 0;
+	padding: 4px 0 18px;
+	font-size: 26px;
+	font-weight: 700;
+	letter-spacing: -0.023em;
+	line-height: 1.2;
+	color: var(--barar-ink);
+}
+
+/* Hairline that fades from the brand colour into the page background. */
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin h1::after {
+	content: "";
+	position: absolute;
+	inset-inline: 0;
+	bottom: 0;
+	height: 2px;
+	border-radius: 2px;
+	background: linear-gradient(90deg, var(--barar-brand) 0%, rgba(37, 99, 235, 0.34) 32%, rgba(37, 99, 235, 0) 74%);
+}
+
+/* -- 22.2 Section navigation ---------------------------------------- */
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-nav {
+	gap: 3px;
+	margin: 16px 0 26px;
+	padding: 5px;
+	background: linear-gradient(180deg, #eef1f6 0%, #e8ecf3 100%);
+	border-color: #dde2ea;
+	border-radius: 13px;
+	box-shadow: inset 0 1px 2px rgba(16, 24, 40, 0.06);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-nav__item {
+	padding: 8px 15px;
+	border-radius: 9px;
+	font-size: 12.5px;
+	font-weight: 600;
+	letter-spacing: 0.01em;
+	color: #475467;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-nav__item:hover {
+	color: var(--barar-brand-dark);
+	background: rgba(255, 255, 255, 0.85);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-nav__item.is-active {
+	color: var(--barar-brand-dark);
+	background: var(--barar-surface);
+	border-color: #d7dfeb;
+	box-shadow: 0 1px 3px rgba(16, 24, 40, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-nav__item:focus-visible {
+	outline: 2px solid var(--barar-brand);
+	outline-offset: 2px;
+}
+
+/* -- 22.3 Admin notices ---------------------------------------------- */
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .notice {
+	margin: 0 0 18px;
+	padding: 12px 16px 12px 14px;
+	border: 1px solid var(--barar-line);
+	border-left-width: 4px;
+	border-radius: 10px;
+	background: var(--barar-surface);
+	box-shadow: var(--barar-shadow);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .notice.is-dismissible {
+	padding-inline-end: 44px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .notice p {
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.6;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .notice-warning {
+	border-left-color: var(--barar-warn);
+	background: #fffcf5;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .notice-success {
+	border-left-color: var(--barar-ok);
+	background: #f6fef9;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .notice-error {
+	border-left-color: var(--barar-err);
+	background: #fffbfa;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .notice-info {
+	border-left-color: var(--barar-brand);
+	background: var(--barar-brand-soft);
+}
+
+/* -- 22.4 Cards ------------------------------------------------------- */
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-cards {
+	gap: 16px;
+	margin: 20px 0 8px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card {
+	padding: 18px 20px 20px;
+	background: linear-gradient(180deg, #ffffff 0%, #fdfdff 100%);
+	border-color: var(--barar-line);
+	border-radius: 14px;
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 10px 26px -22px rgba(16, 24, 40, 0.55);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card h3 {
+	margin: 0 0 12px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid var(--barar-line-soft);
+	font-size: 13.5px;
+	font-weight: 700;
+	letter-spacing: -0.008em;
+	color: var(--barar-ink);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card__body {
+	font-size: 13px;
+	line-height: 1.6;
+	color: var(--barar-ink-2);
+}
+
+/* Status line inside the Connection summary cards. */
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card__body > p:has(> .barar-dot) {
+	margin: 0;
+	padding: 10px 12px;
+	background: var(--barar-surface-2);
+	border: 1px solid var(--barar-line-soft);
+	border-radius: 10px;
+	font-size: 12.5px;
+	line-height: 1.65;
+	color: var(--barar-ink-2);
+}
+
+/* Diagnostics stacks its cards directly in the page wrapper. */
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin > .barar-card + .barar-card {
+	margin-top: 18px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-dot {
+	width: 10px;
+	height: 10px;
+	margin-inline-end: 8px;
+}
+
+/* -- 22.5 KPI tiles (Authentication · Messages) ----------------------- */
+
+body:is(.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-cards:not(.barar-cards--with-side) {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-cards--with-side {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-card--quarter {
+	position: relative;
+	overflow: hidden;
+	padding: 16px 18px 18px;
+	background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
+	transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-card--quarter::before {
+	content: "";
+	position: absolute;
+	inset-inline: 0;
+	top: 0;
+	height: 3px;
+	background: linear-gradient(90deg, var(--barar-brand) 0%, #7ba7ff 100%);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-card--quarter:hover {
+	transform: translateY(-2px);
+	border-color: #c9d8fb;
+	box-shadow: 0 14px 30px -20px rgba(37, 99, 235, 0.75);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-card--quarter h3 {
+	margin: 0 0 10px;
+	padding: 0;
+	border: 0;
+	font-size: 10.5px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--barar-muted);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-card--quarter .barar-stat {
+	font-size: 30px;
+	letter-spacing: -0.03em;
+}
+
+/* -- 22.6 Settings panels --------------------------------------------
+ *
+ * Every <h2> (+ optional description) and the <table> that follows it are
+ * joined into one rounded white panel. The first rule draws the header,
+ * the second the attached caption, the third the body.
+ * ---------------------------------------------------------------------- */
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin form h2 {
+	position: relative;
+	margin: 28px 0 0;
+	padding: 15px 20px 15px 22px;
+	border: 1px solid var(--barar-line);
+	border-bottom-color: var(--barar-line-soft);
+	border-radius: 14px 14px 0 0;
+	background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
+	font-size: 14.5px;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	line-height: 1.4;
+	color: var(--barar-ink);
+}
+
+/* Small brand tick that opens every section title. */
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin form h2::before {
+	content: "";
+	display: inline-block;
+	width: 3px;
+	height: 14px;
+	margin-inline-end: 11px;
+	border-radius: 2px;
+	background: var(--barar-brand);
+	vertical-align: -1px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin form h2 + p.description {
+	margin: 0;
+	padding: 12px 20px 14px;
+	background: var(--barar-surface);
+	border-inline: 1px solid var(--barar-line);
+	border-top: 0;
+	border-bottom: 1px solid var(--barar-line-soft);
+	font-size: 12.5px;
+	line-height: 1.65;
+	color: var(--barar-muted);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin form h2 + p.description a {
+	color: var(--barar-brand-dark);
+	font-weight: 600;
+}
+
+/* A caption with no table underneath still closes its own panel. */
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin form h2 + p.description:not(:has(+ table)) {
+	padding-bottom: 16px;
+	border-bottom-color: var(--barar-line);
+	border-radius: 0 0 14px 14px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin form table.form-table {
+	box-sizing: border-box;
+	margin-top: 0;
+	background: var(--barar-surface);
+	border: 1px solid var(--barar-line);
+	border-top: 0;
+	border-collapse: separate;
+	border-spacing: 0;
+	border-radius: 0 0 14px 14px;
+	overflow: hidden; /* Keeps row hover tints inside the rounded corners. */
+}
+
+/* -- 22.7 Panel rows --------------------------------------------------- */
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table {
+	width: 100%;
+	font-size: 13px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table th {
+	width: 268px;
+	padding: 15px 20px;
+	border-bottom: 1px solid var(--barar-line-soft);
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.5;
+	text-align: start;
+	vertical-align: top;
+	color: var(--barar-ink);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table td {
+	padding: 15px 20px;
+	border-bottom: 1px solid var(--barar-line-soft);
+	font-size: 13px;
+	line-height: 1.6;
+	vertical-align: top;
+	color: var(--barar-ink-2);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table tr:last-child th,
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table tr:last-child td {
+	border-bottom: 0;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table tr {
+	transition: background-color 0.12s ease;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table tr:hover {
+	background: #fafbfe;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table td > p {
+	margin: 7px 0 0;
+	font-size: 13px;
+	line-height: 1.6;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table td > .description {
+	max-width: 64ch;
+	color: var(--barar-muted);
+}
+
+/* Caption rows read as a quiet description beside the control. */
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table td > label {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	max-width: 66ch;
+	padding: 2px 0;
+	font-size: 13px;
+	line-height: 1.6;
+	color: var(--barar-muted);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table td > label code {
+	font-size: 12.5px;
+	font-weight: 700;
+	color: var(--barar-brand-dark);
+}
+
+/* Tables that live inside a card are already framed by it. */
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card .form-table {
+	box-sizing: border-box;
+	margin-top: 0;
+	background: var(--barar-surface);
+	border: 1px solid var(--barar-line);
+	border-collapse: separate;
+	border-spacing: 0;
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card .form-table th {
+	width: 220px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card .barar-tool-table th {
+	width: 170px;
+}
+
+/* The save row closes the panel stack. */
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin p.submit {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin: 26px 0 8px;
+	padding: 0;
+	border-top: 0;
+}
+
+/* -- 22.8 Form controls ------------------------------------------------ */
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table input[type="text"],
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table input[type="search"],
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table input[type="url"],
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table input[type="number"],
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table input[type="password"],
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table select,
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table textarea {
+	box-sizing: border-box;
+	max-width: 100%;
+	height: auto;
+	min-height: 38px;
+	padding: 8px 12px;
+	border: 1px solid #d0d5dd;
+	border-radius: 9px;
+	background-color: var(--barar-surface);
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+	font-size: 13.5px;
+	line-height: 1.5;
+	color: var(--barar-ink);
+	transition: border-color 0.14s ease, box-shadow 0.14s ease;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table input[type="text"]:hover,
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table input[type="search"]:hover,
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table input[type="url"]:hover,
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table input[type="number"]:hover,
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table input[type="password"]:hover,
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table select:hover,
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table textarea:hover {
+	border-color: #98a2b3;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table input::placeholder,
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table textarea::placeholder {
+	color: var(--barar-faint);
+	opacity: 1;
+}
+
+/* Textareas keep a comfortable writing rhythm. */
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table textarea {
+	min-height: 88px;
+	resize: vertical;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table textarea.code,
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table textarea.barar-tpl {
+	background-color: #fbfcfe;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace;
+	font-size: 12.5px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-counter {
+	font-size: 11.5px;
+	color: var(--barar-faint);
+	font-variant-numeric: tabular-nums;
+}
+
+/* Selects get a crisp chevron of their own. */
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table select {
+	padding-inline-end: 34px;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.75 6 6.25 11 1.75' fill='none' stroke='%23667085' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 13px center;
+	background-size: 12px 8px;
+}
+
+/* Toggle switches. */
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin input[type="checkbox"] {
+	/* Dimensions stay on the base rules — only the colour treatment changes. */
+	background-color: #e4e7ec;
+	border-color: #d0d5dd;
+	box-shadow: inset 0 1px 2px rgba(16, 24, 40, 0.09);
+	transition: background-color 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin input[type="checkbox"]:checked {
+	background-color: var(--barar-brand);
+	border-color: var(--barar-brand);
+	box-shadow: inset 0 1px 2px rgba(16, 24, 40, 0.16);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin input[type="checkbox"]:focus-visible {
+	outline: 2px solid var(--barar-brand);
+	outline-offset: 2px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin input[type="checkbox"]:disabled {
+	opacity: 0.55;
+}
+
+/* -- 22.9 Buttons ------------------------------------------------------
+ *
+ * WP ships `.wp-core-ui .button` with min-height: 40px, which the base
+ * rules never countered — these give every button an explicit height and
+ * min-height pair so nothing is sized by accident.
+ * ---------------------------------------------------------------------- */
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .button {
+	box-sizing: border-box;
+	height: 34px;
+	min-height: 34px;
+	line-height: 32px;
+	padding: 0 15px;
+	border-radius: 9px;
+	border-color: #d0d5dd;
+	background: var(--barar-surface);
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 0.005em;
+	color: var(--barar-ink-2);
+	transition: background-color 0.14s ease, border-color 0.14s ease, color 0.14s ease, box-shadow 0.14s ease, transform 0.14s ease;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin a.button {
+	text-decoration: none;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .button:hover {
+	background: var(--barar-surface-2);
+	border-color: #98a2b3;
+	color: var(--barar-ink);
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.07);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .button:active {
+	background: #f2f4f7;
+	transform: translateY(1px);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .button:focus-visible {
+	outline: 2px solid var(--barar-brand);
+	outline-offset: 2px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .button-primary {
+	background: linear-gradient(180deg, #3b82f6 0%, var(--barar-brand) 100%);
+	border-color: var(--barar-brand-dark);
+	box-shadow: 0 1px 2px rgba(37, 99, 235, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+	color: #fff;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .button-primary:hover {
+	background: linear-gradient(180deg, var(--barar-brand) 0%, var(--barar-brand-dark) 100%);
+	border-color: var(--barar-brand-dark);
+	color: #fff;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .button-primary:active {
+	background: var(--barar-brand-dark);
+	color: #fff;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .button-small {
+	height: 28px;
+	min-height: 28px;
+	line-height: 26px;
+	padding: 0 12px;
+	border-radius: 8px;
+	font-size: 12px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin p.submit .button-primary {
+	height: 44px;
+	min-height: 44px;
+	line-height: 42px;
+	padding: 0 28px;
+	border-radius: 11px;
+	font-size: 14px;
+	box-shadow: 0 8px 20px -12px rgba(37, 99, 235, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+/* -- 22.10 Input groups ------------------------------------------------ */
+
+/* Reveal-a-secret field: one framed group, two parts. */
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table .barar-secret {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	box-sizing: border-box;
+	max-width: 560px;
+	padding: 3px;
+	background: var(--barar-surface);
+	border: 1px solid #d0d5dd;
+	border-radius: 10px;
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+	transition: border-color 0.14s ease, box-shadow 0.14s ease;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table .barar-secret:focus-within {
+	border-color: var(--barar-brand);
+	box-shadow: var(--barar-focus);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table .barar-secret input,
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table .barar-secret input:focus {
+	box-sizing: border-box;
+	width: 100%;
+	min-width: 0;
+	height: 30px;
+	min-height: 30px;
+	margin: 0;
+	padding: 0 9px;
+	border: 0;
+	border-radius: 7px;
+	background: transparent;
+	box-shadow: none;
+	outline: none;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace;
+	font-size: 12.5px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-secret .button,
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-secret .barar-toggle-secret {
+	flex: none;
+	height: 28px;
+	min-height: 28px;
+	line-height: 26px;
+	margin: 0;
+	padding: 0 12px;
+	border: 0;
+	border-radius: 7px;
+	background: transparent;
+	box-shadow: none;
+	color: var(--barar-brand-dark);
+	font-size: 12.5px;
+	font-weight: 700;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-secret .barar-toggle-secret:hover,
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-secret .button:hover {
+	background: var(--barar-brand-soft);
+	color: var(--barar-brand-dark);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-secret .barar-toggle-secret[aria-pressed="true"] {
+	background: var(--barar-brand);
+	color: #fff;
+}
+
+/* Copy rows: an attached read-only field plus its Copy affordance. */
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table .barar-copy-row,
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-inline-card .barar-copy-row {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	box-sizing: border-box;
+	max-width: 640px;
+	margin: 0;
+	padding: 3px;
+	background: var(--barar-surface);
+	border: 1px solid #d0d5dd;
+	border-radius: 10px;
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-copy-row .barar-copy-input,
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-copy-row .barar-copy-input:focus {
+	box-sizing: border-box;
+	flex: 1 1 auto;
+	min-width: 0;
+	width: auto;
+	height: 30px;
+	min-height: 30px;
+	margin: 0;
+	padding: 0 9px;
+	border: 0;
+	border-radius: 7px;
+	background: transparent;
+	box-shadow: none;
+	outline: none;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace;
+	font-size: 12.5px;
+	color: var(--barar-ink);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-copy-row .button {
+	flex: none;
+	height: 30px;
+	min-height: 30px;
+	line-height: 28px;
+	margin: 0;
+	padding: 0 15px;
+	border: 0;
+	border-radius: 7px;
+	background: var(--barar-brand-soft);
+	box-shadow: none;
+	color: var(--barar-brand-dark);
+	font-weight: 700;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-copy-row .button:hover {
+	background: var(--barar-brand);
+	border-color: var(--barar-brand);
+	color: #fff;
+}
+
+/* The endpoint row sits between its label and the generate button. */
+body:is(.barar-atik-sms-otp_page_barar-atik-connection) .barar-admin .barar-inline-card .barar-copy-row {
+	margin: 0 0 10px;
+}
+
+/* -- 22.11 Tool results and callouts ---------------------------------- */
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card .barar-tool-result:not(:empty),
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-inline-card .barar-tool-result:not(:empty) {
+	display: block;
+	margin-top: 12px;
+	padding: 9px 12px;
+	background: var(--barar-surface-2);
+	border: 1px solid var(--barar-line-soft);
+	border-radius: 9px;
+	font-size: 12.5px;
+	line-height: 1.55;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-tool-result.is-ok {
+	background: #ecfdf3;
+	border-color: #abefc6;
+	color: var(--barar-ok-ink);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-tool-result.is-error {
+	background: #fef3f2;
+	border-color: #fecdca;
+	color: var(--barar-err-ink);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-tool-result.is-info {
+	background: var(--barar-surface-2);
+	border-color: var(--barar-line);
+	color: var(--barar-ink-2);
+}
+
+/* Endpoint / webhook callout on Connection. */
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-inline-card {
+	margin-top: 18px;
+	padding: 16px 18px;
+	background: linear-gradient(135deg, #eff4ff 0%, #f7faff 100%);
+	border: 1px solid #c7d7fe;
+	border-left: 4px solid var(--barar-brand);
+	border-radius: 12px;
+	font-size: 13px;
+	line-height: 1.6;
+	color: var(--barar-ink-2);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-inline-card p {
+	margin: 0 0 8px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-inline-card p:last-child {
+	margin-bottom: 0;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-inline-card p > strong {
+	display: block;
+	margin-bottom: 3px;
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.07em;
+	color: var(--barar-brand-dark);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-inline-card .barar-tool-result:not(:empty) {
+	margin-top: 4px;
+}
+
+/* -- 22.12 Macro chips (Authentication) -------------------------------- */
+
+body:is(.barar-atik-sms-otp_page_barar-atik-otp) .barar-admin .barar-macro-inline {
+	gap: 8px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-otp) .barar-admin .barar-macro-inline .barar-macro {
+	padding: 6px 13px;
+	background: var(--barar-brand-soft);
+	border-color: #d7e3ff;
+	border-radius: 999px;
+	color: var(--barar-brand-dark);
+	font-weight: 600;
+	transition: background-color 0.14s ease, border-color 0.14s ease, color 0.14s ease;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-otp) .barar-admin .barar-macro-inline .barar-macro:hover {
+	background: var(--barar-brand);
+	border-color: var(--barar-brand);
+	color: #fff;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-otp) .barar-admin .barar-macro-inline .barar-macro:hover code {
+	background: transparent;
+	border-color: transparent;
+	color: #fff;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-otp) .barar-admin .barar-macro-inline .barar-macro code {
+	font-size: 12.5px;
+	font-weight: 700;
+	color: inherit;
+}
+
+/* -- 22.13 Shortcode catalogue (Forms) -------------------------------- */
+
+body:is(.barar-atik-sms-otp_page_barar-atik-forms) .barar-admin .barar-card__body .form-table td {
+	vertical-align: middle;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-forms) .barar-admin .barar-card__body .form-table th code {
+	display: inline-block;
+	max-width: 100%;
+	padding: 6px 11px;
+	background: var(--barar-brand-soft);
+	border: 1px solid #d7e3ff;
+	border-radius: 8px;
+	font-size: 12.5px;
+	font-weight: 700;
+	white-space: nowrap;
+	color: var(--barar-brand-dark);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-forms) .barar-admin .barar-card__body .form-table .barar-copy-row {
+	margin-bottom: 8px;
+}
+
+/* -- 22.14 Message Center --------------------------------------------- */
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-filters {
+	gap: 12px 14px;
+	margin: 20px 0 6px;
+	padding: 14px 16px;
+	background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
+	border-color: var(--barar-line);
+	border-radius: 14px;
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-filters label {
+	gap: 6px;
+	font-size: 10.5px;
+	letter-spacing: 0.07em;
+	color: var(--barar-muted);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-filters select,
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-filters input {
+	box-sizing: border-box;
+	height: 36px;
+	min-height: 36px;
+	margin: 0;
+	padding: 8px 12px;
+	background-color: var(--barar-surface);
+	border: 1px solid #d0d5dd;
+	border-radius: 9px;
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+	font-size: 13px;
+	color: var(--barar-ink);
+	transition: border-color 0.14s ease, box-shadow 0.14s ease;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-filters select {
+	padding-inline-end: 34px;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.75 6 6.25 11 1.75' fill='none' stroke='%23667085' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 13px center;
+	background-size: 12px 8px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-filters select:hover,
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-filters input:hover {
+	border-color: #98a2b3;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-filters select:focus,
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-filters input:focus {
+	border-color: var(--barar-brand);
+	box-shadow: var(--barar-focus);
+	outline: none;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-filters .button {
+	height: 36px;
+	min-height: 36px;
+	line-height: 34px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-filters .barar-tool-result {
+	font-size: 12.5px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-last-sync {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	margin: 6px 0 16px;
+	padding: 5px 12px;
+	background: var(--barar-surface-2);
+	border: 1px solid var(--barar-line-soft);
+	border-radius: 999px;
+	font-size: 12px;
+	color: var(--barar-muted);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-last-sync::before {
+	content: "";
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--barar-faint);
+	box-shadow: 0 0 0 3px rgba(152, 162, 179, 0.2);
+}
+
+/* Table surface: white rows, hairline dividers, a tinted header band. */
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-messages {
+	border-radius: 14px;
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-messages thead th {
+	padding: 12px 16px;
+	background: linear-gradient(180deg, #f8fafc 0%, #f4f6fa 100%);
+	border-bottom: 1px solid var(--barar-line);
+	font-size: 10.5px;
+	letter-spacing: 0.07em;
+	color: var(--barar-muted);
+	box-shadow: 0 1px 0 rgba(16, 24, 40, 0.03);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-messages tbody tr td {
+	padding: 13px 16px;
+	background: var(--barar-surface); /* paints over the core .striped zebra */
+	border-bottom: 1px solid var(--barar-line-soft);
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--barar-ink-2);
+	vertical-align: top;
+	transition: background-color 0.12s ease;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-messages tbody tr:last-child td {
+	border-bottom: 0;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-messages tbody tr:hover td {
+	background: #f5f8ff;
+}
+
+/* Scoped to tbody td: the <th> cells carry the same .barar-col-* classes, and
+   these would otherwise outrank the header rule and restyle the headings. */
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-messages tbody td.barar-col-dir {
+	font-weight: 600;
+	color: var(--barar-brand-dark);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-messages tbody td.barar-col-id {
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace;
+	font-size: 11.5px;
+	color: var(--barar-faint);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-messages .barar-col-context a {
+	font-weight: 600;
+	color: var(--barar-brand-dark);
+	text-decoration: none;
+	border-bottom: 1px solid transparent;
+	transition: border-color 0.14s ease;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-messages .barar-col-context a:hover {
+	border-bottom-color: currentColor;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-messages code {
+	padding: 3px 8px;
+	background: #f2f4f7;
+	border: 1px solid var(--barar-line-soft);
+	border-radius: 7px;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--barar-ink-2);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-messages .barar-row-error {
+	color: var(--barar-err-ink);
+	font-weight: 500;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-messages .barar-row-sub {
+	color: var(--barar-faint);
+	font-size: 11.5px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-messages .barar-empty td {
+	padding: 56px 20px;
+	background: var(--barar-surface);
+	color: var(--barar-muted);
+	font-size: 13.5px;
+}
+
+/* Decorative envelope above the empty-state copy. */
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-messages .barar-empty td::before {
+	content: "";
+	display: block;
+	width: 52px;
+	height: 52px;
+	margin: 0 auto 14px;
+	opacity: 0.75;
+	background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52' height='52' viewBox='0 0 64 64' fill='none' stroke='%2398a2b3' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 10h36a6 6 0 0 1 6 6v22a6 6 0 0 1-6 6H28l-12 9v-9h-2a6 6 0 0 1-6-6V16a6 6 0 0 1 6-6z'/%3E%3Ccircle cx='24' cy='27' r='2.5' fill='%2398a2b3' stroke='none'/%3E%3Ccircle cx='32' cy='27' r='2.5' fill='%2398a2b3' stroke='none'/%3E%3Ccircle cx='40' cy='27' r='2.5' fill='%2398a2b3' stroke='none'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-pagination {
+	margin-top: 16px;
+	gap: 8px;
+	font-size: 12.5px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-pagination a {
+	padding: 6px 13px;
+	border-radius: 9px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-pagination .current {
+	padding: 6px 2px;
+	color: var(--barar-muted);
+}
+
+/* -- 22.15 Diagnostics ------------------------------------------------- */
+
+/* Generic data table that lives inside a card (Recent failures, checks). */
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card__body table.widefat {
+	box-sizing: border-box;
+	margin-top: 0;
+	background: var(--barar-surface);
+	border: 1px solid var(--barar-line);
+	border-collapse: separate;
+	border-spacing: 0;
+	border-radius: 12px;
+	overflow: hidden;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card__body table.widefat th {
+	padding: 11px 16px;
+	background: linear-gradient(180deg, #f8fafc 0%, #f4f6fa 100%);
+	border-bottom: 1px solid var(--barar-line);
+	font-size: 10.5px;
+	font-weight: 700;
+	text-align: start;
+	text-transform: uppercase;
+	letter-spacing: 0.07em;
+	color: var(--barar-muted);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card__body table.widefat td {
+	padding: 12px 16px;
+	background: var(--barar-surface);
+	border-bottom: 1px solid var(--barar-line-soft);
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--barar-ink-2);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card__body table.widefat tbody tr:last-child td {
+	border-bottom: 0;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card__body table.widefat tbody tr td {
+	transition: background-color 0.12s ease;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card__body table.widefat tbody tr:hover td {
+	background: #fafbfe;
+}
+
+/* Health-check list. */
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin table.barar-checks tbody tr:hover td {
+	background: #f7fafd;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-checks .barar-check-icon {
+	width: 56px;
+	text-align: center;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-checks .barar-check-icon .barar-dot {
+	width: 11px;
+	height: 11px;
+	margin: 0;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-checks td:nth-child(2) {
+	width: 240px;
+	color: var(--barar-ink);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-checks td:nth-child(2) strong {
+	font-weight: 700;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-checks td:nth-child(3) {
+	color: var(--barar-muted);
+}
+
+/* Last authentication error. */
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card--alert {
+	background: linear-gradient(180deg, #fffdfb 0%, #fff8f7 100%);
+	border-color: #fecdca;
+	border-left: 4px solid var(--barar-err);
+	padding-inline-start: 17px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card--alert h3 {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	color: var(--barar-err-ink);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card--alert h3::before {
+	content: "";
+	flex: none;
+	width: 16px;
+	height: 16px;
+	background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23b42318' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z'/%3E%3Cline x1='12' y1='9' x2='12' y2='13.5'/%3E%3Cline x1='12' y1='17' x2='12.01' y2='17'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card--alert .barar-stat-list li {
+	padding: 9px 12px;
+	background: var(--barar-surface);
+	border: 1px solid #fecdca;
+	border-radius: 9px;
+	font-size: 12.5px;
+	word-break: break-word;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card--alert .barar-stat-list strong {
+	color: var(--barar-err-ink);
+}
+
+/* Counters become a tile grid instead of a stacked list. */
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card:not(.barar-card--alert) .barar-stat-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+	gap: 10px;
+	margin-top: 12px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card:not(.barar-card--alert) .barar-stat-list li {
+	display: block;
+	margin: 0;
+	padding: 11px 13px;
+	background: var(--barar-surface-2);
+	border: 1px solid var(--barar-line-soft);
+	border-radius: 10px;
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--barar-ink);
+	font-variant-numeric: tabular-nums;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card:not(.barar-card--alert) .barar-stat-list strong {
+	display: block;
+	margin: 0 0 5px;
+	font-size: 10.5px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.07em;
+	color: var(--barar-muted);
+}
+
+/* Duplicate-phone blocks. */
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-dupe {
+	padding: 14px 16px;
+	background: #fffcf5;
+	border: 1px solid #fedf89;
+	border-left: 4px solid var(--barar-warn);
+	border-radius: 12px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-dupe h4 {
+	margin: 0 0 4px;
+	font-size: 13.5px;
+	color: var(--barar-ink);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-dupe h4 code {
+	padding: 3px 9px;
+	background: var(--barar-surface);
+	border: 1px solid #fedf89;
+	border-radius: 7px;
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--barar-warn-ink);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-dupe ul {
+	margin: 10px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-dupe li {
+	margin: 0;
+	padding: 11px 13px;
+	background: var(--barar-surface);
+	border: 1px solid #fef0c7;
+	border-radius: 10px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-dupe li + li {
+	margin-top: 8px;
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-dupe li strong {
+	display: block;
+	margin: 0;
+	font-size: 13px;
+	color: var(--barar-ink);
+}
+
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-dupe li .barar-row-sub {
+	margin-top: 3px;
+}
+
+/* Standalone action form at the foot of a card. */
+body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card__body > form {
+	margin-top: 16px;
+	padding-top: 14px;
+	border-top: 1px solid var(--barar-line-soft);
+}
+
+/* -- 22.16 Responsive --------------------------------------------------- */
+
+@media (max-width: 1160px) {
+	body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table th {
+		width: 236px;
+	}
+
+	body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card .form-table th {
+		width: 200px;
+	}
+
+	body:is(.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-cards:not(.barar-cards--with-side) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 782px) {
+	/* The base stylesheet stacks .form-table at this width; these selectors
+	   outrank it, so the stacked paddings and widths have to be restated. */
+	body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table th,
+	body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card .form-table th {
+		display: block;
+		width: auto;
+		padding: 16px 16px 5px;
+		border-bottom: 0;
+	}
+
+	body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table td {
+		display: block;
+		width: auto;
+		padding: 0 16px 16px;
+	}
+
+	body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table tr:last-child td {
+		border-bottom: 0;
+	}
+
+	body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin form h2 {
+		border-radius: 12px 12px 0 0;
+	}
+
+	/* Split deliberately: a selector list that mixes :has() with plain
+	   selectors is dropped as a whole by browsers without :has() support. */
+	body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin form table.form-table {
+		border-radius: 0 0 12px 12px;
+	}
+
+	body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin form h2 + p.description:not(:has(+ table)) {
+		border-radius: 0 0 12px 12px;
+	}
+
+	body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table .barar-secret,
+	body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table .barar-copy-row {
+		max-width: none;
+	}
+
+	body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin p.submit {
+		flex-wrap: wrap;
+	}
+
+	body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card__body {
+		overflow-x: auto;
+	}
+}
+
+@media (max-width: 600px) {
+	body:is(.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-cards:not(.barar-cards--with-side) {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	body:is(.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-card--quarter .barar-stat {
+		font-size: 26px;
+	}
+
+	body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card {
+		padding: 16px;
+	}
+
+	body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin h1 {
+		font-size: 22px;
+	}
+
+	body:is(.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .barar-card:not(.barar-card--alert) .barar-stat-list {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* -- 22.17 Right-to-left ----------------------------------------------- */
+
+html[dir="rtl"] body:is(.barar-atik-sms-otp_page_barar-atik-connection,.barar-atik-sms-otp_page_barar-atik-otp,.barar-atik-sms-otp_page_barar-atik-forms,.barar-atik-sms-otp_page_barar-atik-messages,.barar-atik-sms-otp_page_barar-atik-diagnostics) .barar-admin .form-table select,
+html[dir="rtl"] body:is(.barar-atik-sms-otp_page_barar-atik-messages) .barar-admin .barar-filters select {
+	background-position: left 13px center;
+}
