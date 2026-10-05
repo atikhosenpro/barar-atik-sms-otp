@@ -35,6 +35,31 @@
 	 * Non-JSON responses (HTML, "-1", "0") reject with a typed error so the
 	 * caller can show an accurate message instead of a generic failure.
 	 */
+	/**
+	 * Strip translation-plugin markers (TranslatePress' #!trpst#...#!trpen#)
+	 * from every text in an AJAX answer. Those markers are only replaced by
+	 * real markup in a finished page, never in a JSON response.
+	 */
+	function plainText( value ) {
+		if ( 'string' === typeof value ) {
+			if ( -1 === value.indexOf( '#!trp' ) ) {
+				return value;
+			}
+			return value
+				.replace( /#!trpst#trp-gettext[^#]*#!trpen#([\s\S]*?)#!trpst#\/trp-gettext#!trpen#/g, '$1' )
+				.replace( /#!trp(?:st|en)#/g, '' );
+		}
+		if ( Array.isArray( value ) ) {
+			return value.map( plainText );
+		}
+		if ( value && 'object' === typeof value ) {
+			Object.keys( value ).forEach( function ( key ) {
+				value[ key ] = plainText( value[ key ] );
+			} );
+		}
+		return value;
+	}
+
 	function post( action, data ) {
 		var body = new URLSearchParams();
 		body.append( 'action', action );
@@ -64,7 +89,7 @@
 					scalar.httpStatus = res.status;
 					throw scalar;
 				}
-				return json;
+				return plainText( json );
 			} );
 		} );
 	}

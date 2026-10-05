@@ -137,6 +137,8 @@ Tick **Disable Plugin Styles** on **Design**. The plugin then loads no CSS at al
 == Changelog ==
 
 = 1.2.0 =
+* Fixed raw "#!trpst#trp-gettext ..." text showing inside the code popup and messages when TranslatePress is active. The markers are now removed from AJAX answers, SMS texts and verification emails.
+* Fixed: a guest's verified-code proof could be lost before the order was submitted, because the WooCommerce guest session was never forced to be saved. The session cookie is now created when the proof is stored, and if no session can be started the dialog says so instead of reporting "verified" and then refusing the order.
 * Checkout verification has its own timing settings in the Checkout tab: resend countdown (default 60 seconds) and code validity (default 1 minute). The general OTP timing is no longer shared with it.
 * Clearer wording of the two audience switches: guests (default on) and logged-in customers (default off, so a logged-in shopper never sees the popup).
 * The verification popup is now a real centred dialog over a blurred page. Its layout CSS is printed with the popup, so it no longer falls back to a plain block at the bottom of the checkout when the stylesheet is missing (cache/optimiser plugins), and it is moved to <body> so theme containers cannot break it.

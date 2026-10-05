@@ -517,8 +517,8 @@ class Barar_Atik_Checkout_Verify {
 
 		$sent = wp_mail(
 			$email,
-			$subject,
-			$message,
+			Barar_Atik_Settings::plain( $subject ),
+			Barar_Atik_Settings::plain( $message ),
 			array( 'Content-Type: text/plain; charset=UTF-8' )
 		);
 
@@ -677,7 +677,17 @@ class Barar_Atik_Checkout_Verify {
 			// code really went to that phone number (see ajax_send()).
 			Barar_Atik_Verified::mark( $phone );
 		}
-		$this->grant( $phone, $email );
+		if ( ! $this->grant( $phone, $email ) ) {
+			// Better an honest error now than a "verified" dialog followed by
+			// a refused order.
+			wp_send_json_error(
+				array(
+					'message' => __( 'Your session could not be started. Please enable cookies and reload the page.', 'barar-atik-sms-otp' ),
+					'code'    => 'session',
+				),
+				400
+			);
+		}
 
 		wp_send_json_success(
 			array( 'message' => __( 'Verified. You can place the order now.', 'barar-atik-sms-otp' ) )
@@ -873,8 +883,10 @@ class Barar_Atik_Checkout_Verify {
 	private function grant( $phone, $email ) {
 		$session = $this->session();
 		if ( ! $session ) {
-			return;
+			return false;
 		}
+
+		$this->persist( $session );
 
 		$session->set(
 			self::SESSION_KEY,
@@ -883,6 +895,25 @@ class Barar_Atik_Checkout_Verify {
 				'exp'   => time() + self::PROOF_TTL,
 			)
 		);
+
+		return true;
+	}
+
+	/**
+	 * Make sure a guest's session survives this request.
+	 *
+	 * WooCommerce only saves a guest session once the visitor has the session
+	 * cookie. A proof written to a session that is never saved would be
+	 * forgotten before the order is submitted and the shopper would be asked
+	 * to verify again right after entering a correct code.
+	 *
+	 * @param object $session WooCommerce session.
+	 * @return void
+	 */
+	private function persist( $session ) {
+		if ( method_exists( $session, 'has_session' ) && ! $session->has_session() && method_exists( $session, 'set_customer_session_cookie' ) ) {
+			$session->set_customer_session_cookie( true );
+		}
 	}
 
 	/**
@@ -896,6 +927,10 @@ class Barar_Atik_Checkout_Verify {
 		}
 
 		$wc = WC();
+		if ( is_object( $wc ) && empty( $wc->session ) && method_exists( $wc, 'initialize_session' ) ) {
+			// admin-ajax requests do not always have the session loaded yet.
+			$wc->initialize_session();
+		}
 		if ( ! is_object( $wc ) || empty( $wc->session ) || ! is_object( $wc->session ) ) {
 			return null;
 		}

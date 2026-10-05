@@ -840,6 +840,29 @@ class Barar_Atik_Settings {
 	}
 
 	/**
+	 * Remove translation-plugin markers from a text.
+	 *
+	 * TranslatePress wraps every translatable string in #!trpst#...#!trpen#
+	 * markers while a page is built and swaps them for real markup at the
+	 * very end. Text that leaves WordPress some other way (an AJAX answer, an
+	 * SMS, an email) never reaches that last step and would show the raw
+	 * markers. The wrapped text itself is kept.
+	 *
+	 * @param string $text Text that may contain markers.
+	 * @return string
+	 */
+	public static function plain( $text ) {
+		$text = (string) $text;
+		if ( false === strpos( $text, '#!trp' ) ) {
+			return $text;
+		}
+
+		$text = preg_replace( '/#!trpst#trp-gettext[^#]*#!trpen#(.*?)#!trpst#\/trp-gettext#!trpen#/s', '$1', $text );
+
+		return (string) preg_replace( '/#!trp(?:st|en)#/', '', $text );
+	}
+
+	/**
 	 * A visible label, button text, heading or note typed in the settings.
 	 *
 	 * There is deliberately no built-in wording: what the administrator did

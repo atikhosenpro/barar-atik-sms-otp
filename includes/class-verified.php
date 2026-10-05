@@ -40,6 +40,11 @@ class Barar_Atik_Verified {
 			return;
 		}
 
+		// A guest session is only saved once the visitor holds its cookie.
+		if ( method_exists( $session, 'has_session' ) && ! $session->has_session() && method_exists( $session, 'set_customer_session_cookie' ) ) {
+			$session->set_customer_session_cookie( true );
+		}
+
 		$entries   = self::read( $session );
 		$entries[] = self::stamp( $number );
 
@@ -119,6 +124,9 @@ class Barar_Atik_Verified {
 		}
 
 		$wc = WC();
+		if ( is_object( $wc ) && empty( $wc->session ) && method_exists( $wc, 'initialize_session' ) ) {
+			$wc->initialize_session();
+		}
 		if ( ! is_object( $wc ) || ! isset( $wc->session ) || ! is_object( $wc->session ) ) {
 			return null;
 		}

@@ -72,7 +72,7 @@ class Barar_Atik_SMS {
 			return new WP_Error( 'invalid_phone', __( 'The phone number is missing or invalid.', 'barar-atik-sms-otp' ) );
 		}
 
-		$message = trim( (string) $args['message'] );
+		$message = trim( Barar_Atik_Settings::plain( $args['message'] ) );
 		if ( '' === $message ) {
 			return new WP_Error( 'empty_message', __( 'The message is empty.', 'barar-atik-sms-otp' ) );
 		}
